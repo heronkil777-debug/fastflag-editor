@@ -22,6 +22,9 @@ jobs:
           - os: ubuntu-latest
             artifact_name: Flag Editor-${{ github.ref_name }}.AppImage
     runs-on: ${{ matrix.os }}
+    env:
+      # Para builds macOS não-assinados no GitHub Actions
+      CSC_IDENTITY_AUTO_DISCOVERY: false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -44,4 +47,5 @@ jobs:
       - name: Package with electron-builder
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_IDENTITY_AUTO_DISCOVERY: false
         run: npx electron-builder --publish=always
