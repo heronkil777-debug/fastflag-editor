@@ -56,7 +56,7 @@ jobs:
         if: matrix.platform == 'windows'
         uses: actions/upload-artifact@v4
         with:
-          name: windows-Flag Editor Setup v${{ steps.version.outputs.version }}.exe
+          name: win-setup-v${{ steps.version.outputs.version }}
           path: release/Flag Editor Setup ${{ steps.version.outputs.version }}.exe
           retention-days: 1
 
@@ -64,7 +64,7 @@ jobs:
         if: matrix.platform == 'windows'
         uses: actions/upload-artifact@v4
         with:
-          name: windows-Flag Editor Portable v${{ steps.version.outputs.version }}.exe
+          name: win-portable-v${{ steps.version.outputs.version }}
           path: release/Flag Editor Portable ${{ steps.version.outputs.version }}.exe
           retention-days: 1
 
@@ -72,7 +72,7 @@ jobs:
         if: matrix.platform == 'linux'
         uses: actions/upload-artifact@v4
         with:
-          name: linux-Flag Editor-v${{ steps.version.outputs.version }}.AppImage
+          name: linux-appimage-v${{ steps.version.outputs.version }}
           path: release/Flag Editor-${{ steps.version.outputs.version }}.AppImage
           retention-days: 1
 
@@ -80,7 +80,7 @@ jobs:
         if: matrix.platform == 'linux'
         uses: actions/upload-artifact@v4
         with:
-          name: linux-fastflag-editor_v${{ steps.version.outputs.version }}_amd64.deb
+          name: linux-deb-v${{ steps.version.outputs.version }}
           path: release/fastflag-editor_${{ steps.version.outputs.version }}_amd64.deb
           retention-days: 1
 
@@ -98,19 +98,19 @@ jobs:
       - name: Download Windows installer
         uses: actions/download-artifact@v4
         with:
-          name: windows-Flag Editor Setup v${{ steps.version.outputs.version }}.exe
+          name: win-setup-v${{ steps.version.outputs.version }}
           path: artifacts/windows
 
       - name: Download Windows portable
         uses: actions/download-artifact@v4
         with:
-          name: windows-Flag Editor Portable v${{ steps.version.outputs.version }}.exe
+          name: win-portable-v${{ steps.version.outputs.version }}
           path: artifacts/windows
 
       - name: Download Linux AppImage
         uses: actions/download-artifact@v4
         with:
-          name: linux-Flag Editor-v${{ steps.version.outputs.version }}.AppImage
+          name: linux-appimage-v${{ steps.version.outputs.version }}
           path: artifacts/linux
 
       - name: Create Release
