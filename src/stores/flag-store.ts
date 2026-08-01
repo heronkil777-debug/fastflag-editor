@@ -27,17 +27,8 @@ import {
 
 // ─── IPC Bridge ────────────────────────────────────
 // Carregado do contextBridge exposto pelo preload
-declare global {
-  interface Window {
-    electron?: {
-      syncFlags: (flags: unknown[]) => Promise<{ ok: boolean; error?: string }>;
-      loadFlags: () => Promise<{ ok: boolean; data?: unknown }>;
-      saveWallpaper: (base64: string) => Promise<{ ok: boolean; error?: string }>;
-      loadWallpaper: () => Promise<{ ok: boolean; dataUrl?: string }>;
-      removeWallpaper: () => Promise<{ ok: boolean }>;
-    };
-  }
-}
+// O tipo ElectronAPI já está declarado em @shared/electron-api
+// e é mesclado no Window global via declaration merging
 
 // ─── State ────────────────────────────────────────────
 

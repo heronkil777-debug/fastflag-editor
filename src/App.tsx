@@ -140,7 +140,21 @@ export default function App() {
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [selectedFlagId, editingCell, contextMenu, flags]);
+  }, [
+    selectedFlagId,
+    editingCell,
+    contextMenu,
+    flags,
+    closeContextMenu,
+    exportAll,
+    notify,
+    openAddDialog,
+    openImportDialog,
+    removeFlag,
+    removeFlags,
+    selectFlag,
+    stopEditing,
+  ]);
 
   // Paste to import
   useEffect(() => {

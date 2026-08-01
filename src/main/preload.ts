@@ -12,10 +12,11 @@
 
 import { contextBridge, ipcRenderer } from 'electron';
 import { IPC } from './ipc-channels';
+import type { ElectronAPI } from '@shared/electron-api';
 
 // ─── API Exposta ao Renderer ──────────────────────
 
-const electronAPI = {
+const electronAPI: ElectronAPI = {
   // Flags
   syncFlags: (flags: unknown[]) => ipcRenderer.invoke(IPC.FLAGS_SYNC, flags),
   loadFlags: () => ipcRenderer.invoke(IPC.FLAGS_LOAD),
@@ -79,4 +80,4 @@ contextBridge.exposeInMainWorld('electron', electronAPI);
 
 // ─── Type exports para o renderer ────────────────
 
-export type ElectronAPI = typeof electronAPI;
+export type { ElectronAPI } from '@shared/electron-api';

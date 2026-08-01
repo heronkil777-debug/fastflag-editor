@@ -11,7 +11,6 @@
 import { BrowserWindow, app, screen } from 'electron';
 import path from 'path';
 
-const storeModule = require('./store');
 import logger from './logger';
 
 const isDev = !app.isPackaged;
@@ -22,9 +21,17 @@ export function getMainWindow(): BrowserWindow | null {
   return mainWindow;
 }
 
-export function createMainWindow(): BrowserWindow {
+// Lazy-load store to avoid ESM/CJS issues
+async function getStores() {
+  const storeModule = await import('./store');
+  return { settingsStore: storeModule.settingsStore };
+}
+
+export async function createMainWindow(): Promise<BrowserWindow> {
+  const { settingsStore } = await getStores();
+
   // Restaurar tamanho e posição anteriores
-  const bounds = (storeModule.settingsStore.get('windowBounds') as {
+  const bounds = (settingsStore.get('windowBounds') as {
     width: number;
     height: number;
     x?: number;
@@ -82,14 +89,15 @@ export function createMainWindow(): BrowserWindow {
   mainWindow.on('resize', () => {
     if (!mainWindow) return;
     const [width, height] = mainWindow.getSize();
-    storeModule.settingsStore.set('windowBounds', { ...bounds, width, height });
+    const currentBounds = (settingsStore.get('windowBounds') as Record<string, unknown>) || {};
+    settingsStore.set('windowBounds', { ...currentBounds, width, height });
   });
 
   mainWindow.on('move', () => {
     if (!mainWindow) return;
     const [x, y] = mainWindow.getPosition();
     const [w, h] = mainWindow.getSize();
-    storeModule.settingsStore.set('windowBounds', { x, y, width: w, height: h });
+    settingsStore.set('windowBounds', { x, y, width: w, height: h });
   });
 
   mainWindow.on('closed', () => {
