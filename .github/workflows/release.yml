@@ -64,10 +64,17 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Download all artifacts
+      - name: Download Windows artifact
         uses: actions/download-artifact@v4
         with:
-          path: artifacts
+          name: Flag Editor Setup ${{ github.ref_name }}.exe
+          path: artifacts/windows
+
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Flag Editor-${{ github.ref_name }}.AppImage
+          path: artifacts/linux
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -76,7 +83,9 @@ jobs:
           name: ${{ github.ref_name }}
           draft: false
           prerelease: false
-          files: artifacts/**
+          files: |
+            artifacts/windows/Flag Editor Setup ${{ github.ref_name }}.exe
+            artifacts/linux/Flag Editor-${{ github.ref_name }}.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
