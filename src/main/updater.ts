@@ -27,7 +27,7 @@ function setupUpdaterEvents(mainWindow: BrowserWindow): void {
     logger.info('Checking for updates...');
   });
 
-  autoUpdater.on('update-available', (info) => {
+  autoUpdater.on('update-available', info => {
     logger.info('Update available:', info.version);
     mainWindow.webContents.send(IPC.UPDATER_STATUS, {
       status: 'available',
@@ -42,14 +42,14 @@ function setupUpdaterEvents(mainWindow: BrowserWindow): void {
     });
   });
 
-  autoUpdater.on('download-progress', (progress) => {
+  autoUpdater.on('download-progress', progress => {
     mainWindow.webContents.send(IPC.UPDATER_STATUS, {
       status: 'downloading',
       progress: progress.percent,
     });
   });
 
-  autoUpdater.on('update-downloaded', (info) => {
+  autoUpdater.on('update-downloaded', info => {
     logger.info('Update downloaded:', info.version);
     mainWindow.webContents.send(IPC.UPDATER_STATUS, {
       status: 'downloaded',
@@ -61,18 +61,17 @@ function setupUpdaterEvents(mainWindow: BrowserWindow): void {
         type: 'info',
         title: 'Update Ready',
         message: `FastFlag Editor ${info.version} has been downloaded.`,
-        detail:
-          'It will be installed automatically when you close the application.',
+        detail: 'It will be installed automatically when you close the application.',
         buttons: ['Restart Now', 'Later'],
       })
-      .then((result) => {
+      .then(result => {
         if (result.response === 0) {
           autoUpdater.quitAndInstall();
         }
       });
   });
 
-  autoUpdater.on('error', (error) => {
+  autoUpdater.on('error', error => {
     logger.error('Update error:', error.message);
     mainWindow.webContents.send(IPC.UPDATER_STATUS, {
       status: 'error',
@@ -94,7 +93,7 @@ export function checkForUpdates(): void {
     .then(() => {
       logger.info('Update check triggered');
     })
-    .catch((error) => {
+    .catch(error => {
       logger.error('Update check failed:', error.message);
     });
 }

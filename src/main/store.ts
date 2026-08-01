@@ -70,12 +70,10 @@ export function runMigrations(): void {
     return;
   }
 
-  logger.info(
-    `Running data migrations from v${storedVersion} to v${CURRENT_DATA_VERSION}`
-  );
+  logger.info(`Running data migrations from v${storedVersion} to v${CURRENT_DATA_VERSION}`);
 
   try {
-    let data = dataStore.store as Record<string, unknown>;
+    let data = dataStore.store;
 
     for (let v = storedVersion + 1; v <= CURRENT_DATA_VERSION; v++) {
       const migrate = migrations[v];

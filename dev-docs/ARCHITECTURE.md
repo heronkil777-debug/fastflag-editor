@@ -33,30 +33,30 @@ Built with Electron + React + TypeScript, fully offline, no backend.
 
 ## Main Process Modules
 
-| Module | Path | Responsibility |
-|--------|------|---------------|
-| **index.ts** | `src/main/index.ts` | Entry point: orchestrates startup |
-| **window.ts** | `src/main/window.ts` | BrowserWindow creation, bounds persistence |
-| **menu.ts** | `src/main/menu.ts` | Native OS menu (File/Edit/View/Window/Help) |
-| **ipc-channels.ts** | `src/main/ipc-channels.ts` | Typed IPC channel constants |
-| **ipc-handlers.ts** | `src/main/ipc-handlers.ts` | All IPC handler registration |
-| **store.ts** | `src/main/store.ts` | electron-store instances + migrations |
-| **logger.ts** | `src/main/logger.ts` | Structured logging with rotation |
-| **updater.ts** | `src/main/updater.ts` | Auto-update via electron-updater |
-| **preload.ts** | `src/main/preload.ts` | contextBridge safe API |
+| Module              | Path                       | Responsibility                              |
+| ------------------- | -------------------------- | ------------------------------------------- |
+| **index.ts**        | `src/main/index.ts`        | Entry point: orchestrates startup           |
+| **window.ts**       | `src/main/window.ts`       | BrowserWindow creation, bounds persistence  |
+| **menu.ts**         | `src/main/menu.ts`         | Native OS menu (File/Edit/View/Window/Help) |
+| **ipc-channels.ts** | `src/main/ipc-channels.ts` | Typed IPC channel constants                 |
+| **ipc-handlers.ts** | `src/main/ipc-handlers.ts` | All IPC handler registration                |
+| **store.ts**        | `src/main/store.ts`        | electron-store instances + migrations       |
+| **logger.ts**       | `src/main/logger.ts`       | Structured logging with rotation            |
+| **updater.ts**      | `src/main/updater.ts`      | Auto-update via electron-updater            |
+| **preload.ts**      | `src/main/preload.ts`      | contextBridge safe API                      |
 
 ## Renderer Architecture
 
-| Path | Responsibility |
-|------|---------------|
-| `src/components/` | React UI components |
-| `src/stores/` | Zustand state stores |
-| `src/hooks/` | Custom React hooks |
-| `src/plugins/` | Plugin system |
-| `src/providers/` | ThemeProvider |
-| `src/shared/` | Types shared with main process |
-| `src/utils/` | Event bus, utilities |
-| `src/adapters/` | Roblox format parsers |
+| Path              | Responsibility                 |
+| ----------------- | ------------------------------ |
+| `src/components/` | React UI components            |
+| `src/stores/`     | Zustand state stores           |
+| `src/hooks/`      | Custom React hooks             |
+| `src/plugins/`    | Plugin system                  |
+| `src/providers/`  | ThemeProvider                  |
+| `src/shared/`     | Types shared with main process |
+| `src/utils/`      | Event bus, utilities           |
+| `src/adapters/`   | Roblox format parsers          |
 
 ## State Management
 

@@ -17,26 +17,19 @@ import { IPC } from './ipc-channels';
 
 const electronAPI = {
   // Flags
-  syncFlags: (flags: unknown[]) =>
-    ipcRenderer.invoke(IPC.FLAGS_SYNC, flags),
-  loadFlags: () =>
-    ipcRenderer.invoke(IPC.FLAGS_LOAD),
+  syncFlags: (flags: unknown[]) => ipcRenderer.invoke(IPC.FLAGS_SYNC, flags),
+  loadFlags: () => ipcRenderer.invoke(IPC.FLAGS_LOAD),
 
   // Settings
-  getSettings: () =>
-    ipcRenderer.invoke(IPC.SETTINGS_GET_ALL),
-  setSetting: (key: string, value: unknown) =>
-    ipcRenderer.invoke(IPC.SETTINGS_SET, key, value),
+  getSettings: () => ipcRenderer.invoke(IPC.SETTINGS_GET_ALL),
+  setSetting: (key: string, value: unknown) => ipcRenderer.invoke(IPC.SETTINGS_SET, key, value),
 
   // File dialogs
-  openFileDialog: () =>
-    ipcRenderer.invoke(IPC.FILE_OPEN_DIALOG),
-  saveFileDialog: (defaultPath?: string) =>
-    ipcRenderer.invoke(IPC.FILE_SAVE_DIALOG, defaultPath),
+  openFileDialog: () => ipcRenderer.invoke(IPC.FILE_OPEN_DIALOG),
+  saveFileDialog: (defaultPath?: string) => ipcRenderer.invoke(IPC.FILE_SAVE_DIALOG, defaultPath),
 
   // File I/O
-  readFile: (filePath: string) =>
-    ipcRenderer.invoke(IPC.FILE_READ, filePath),
+  readFile: (filePath: string) => ipcRenderer.invoke(IPC.FILE_READ, filePath),
   writeFile: (filePath: string, content: string) =>
     ipcRenderer.invoke(IPC.FILE_WRITE, filePath, content),
 
@@ -56,11 +49,7 @@ const electronAPI = {
 
   // Menu actions listener
   onMenuAction: (callback: (action: string, ...args: unknown[]) => void) => {
-    const handler = (
-      _event: Electron.IpcRendererEvent,
-      action: string,
-      ...args: unknown[]
-    ) => {
+    const handler = (_event: Electron.IpcRendererEvent, action: string, ...args: unknown[]) => {
       callback(action, ...args);
     };
     ipcRenderer.on(IPC.MENU_ACTION, handler);
@@ -70,21 +59,13 @@ const electronAPI = {
   },
 
   // Wallpaper
-  saveWallpaper: (base64: string) =>
-    ipcRenderer.invoke(IPC.WALLPAPER_SAVE, base64),
-  loadWallpaper: () =>
-    ipcRenderer.invoke(IPC.WALLPAPER_LOAD),
-  removeWallpaper: () =>
-    ipcRenderer.invoke(IPC.WALLPAPER_REMOVE),
+  saveWallpaper: (base64: string) => ipcRenderer.invoke(IPC.WALLPAPER_SAVE, base64),
+  loadWallpaper: () => ipcRenderer.invoke(IPC.WALLPAPER_LOAD),
+  removeWallpaper: () => ipcRenderer.invoke(IPC.WALLPAPER_REMOVE),
 
   // Updater status listener
-  onUpdateStatus: (
-    callback: (status: Record<string, unknown>) => void
-  ) => {
-    const handler = (
-      _event: Electron.IpcRendererEvent,
-      status: Record<string, unknown>
-    ) => {
+  onUpdateStatus: (callback: (status: Record<string, unknown>) => void) => {
+    const handler = (_event: Electron.IpcRendererEvent, status: Record<string, unknown>) => {
       callback(status);
     };
     ipcRenderer.on(IPC.UPDATER_STATUS, handler);

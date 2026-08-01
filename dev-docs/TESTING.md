@@ -42,6 +42,7 @@ src/
 ## What to Test
 
 ### Unit Tests (Pure Logic)
+
 - [ ] `Flag Store` — CRUD operations, duplicate detection, import/export
 - [ ] `UI Store` — selection, context menu, dialog state
 - [ ] `Roblox Adapter` — format detection, parsing, serialization
@@ -51,6 +52,7 @@ src/
 - [ ] `Event Bus` — emit/on/off/unsubscribe
 
 ### Components
+
 - [ ] `Button` — variants, sizes, disabled states
 - [ ] `Input` — error states, placeholder
 - [ ] `Dialog` — open/close, backdrop click, title
@@ -60,6 +62,7 @@ src/
 - [ ] `Toolbar` — search/filter integration (future)
 
 ### Integration
+
 - [ ] Auto-save cycle (mock IPC)
 - [ ] Theme toggle (dark ↔ light)
 - [ ] Undo/Redo flow (create flag, undo, redo, verify state)
@@ -119,11 +122,13 @@ test('validates FastFlag schema', () => {
 ## Future
 
 ### Playwright E2E
+
 - Launch Electron app and interact with it via CDP
 - Test full flows: create flag → edit → export → import → delete
 - Screenshot regression testing
 
 ### CI/CD (GitHub Actions)
+
 ```yaml
 - name: Test
   run: npm run test:coverage

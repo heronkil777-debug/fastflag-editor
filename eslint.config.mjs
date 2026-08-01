@@ -1,5 +1,12 @@
+import js from '@eslint/js';
+import typescriptEslint from 'typescript-eslint';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import prettier from 'eslint-plugin-prettier';
+
 export default [
   { ignores: ['dist/', 'release/', 'node_modules/', '*.config.*', '*.lock'] },
+  ...typescriptEslint.configs.recommendedTypeChecked,
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -13,18 +20,25 @@ export default [
     },
     settings: { react: { version: '19.2' } },
     plugins: {
-      react: await import('eslint-plugin-react'),
-      'react-hooks': await import('eslint-plugin-react-hooks'),
-      '@typescript-eslint': await import('typescript-eslint'),
-      prettier: await import('eslint-plugin-prettier'),
+      react,
+      'react-hooks': reactHooks,
+      prettier,
     },
     rules: {
-      ...(await import('typescript-eslint')).configs.recommendedTypeChecked[0].rules,
-      ...(await import('eslint-plugin-react')).configs.recommended.rules,
-      ...(await import('eslint-plugin-react-hooks')).configs.recommended.rules,
+      ...react.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unsafe-assignment': 'warn',
+      '@typescript-eslint/no-unsafe-call': 'warn',
+      '@typescript-eslint/no-unsafe-member-access': 'warn',
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-require-imports': 'warn',
+      '@typescript-eslint/no-floating-promises': 'warn',
+      '@typescript-eslint/no-misused-promises': 'warn',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
       'prettier/prettier': 'error',
     },
   },

@@ -13,8 +13,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import logger from './logger';
 import { IPC } from './ipc-channels';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const store = require('./store') as any;
+
+const store = require('./store');
 // ─── Registro ─────────────────────────────────────
 
 export function registerIpcHandlers(mainWindow: BrowserWindow): void {
@@ -69,9 +69,7 @@ export function registerIpcHandlers(mainWindow: BrowserWindow): void {
     try {
       const result = await dialog.showOpenDialog(mainWindow, {
         properties: ['openFile'],
-        filters: [
-          { name: 'JSON Files', extensions: ['json'] },
-        ],
+        filters: [{ name: 'JSON Files', extensions: ['json'] }],
       });
 
       if (result.canceled || !result.filePaths[0]) {
@@ -89,9 +87,7 @@ export function registerIpcHandlers(mainWindow: BrowserWindow): void {
     try {
       const result = await dialog.showSaveDialog(mainWindow, {
         defaultPath: defaultPath || 'flags.json',
-        filters: [
-          { name: 'JSON Files', extensions: ['json'] },
-        ],
+        filters: [{ name: 'JSON Files', extensions: ['json'] }],
       });
 
       if (result.canceled || !result.filePath) {
@@ -116,19 +112,16 @@ export function registerIpcHandlers(mainWindow: BrowserWindow): void {
     }
   });
 
-  ipcMain.handle(
-    IPC.FILE_WRITE,
-    async (_event, filePath: string, content: string) => {
-      try {
-        await fs.writeFile(filePath, content, 'utf-8');
-        logger.info(`File written: ${filePath}`);
-        return { ok: true };
-      } catch (error) {
-        logger.error(`Failed to write file: ${filePath}`, error);
-        return { ok: false, error: `Could not write: ${filePath}` };
-      }
+  ipcMain.handle(IPC.FILE_WRITE, async (_event, filePath: string, content: string) => {
+    try {
+      await fs.writeFile(filePath, content, 'utf-8');
+      logger.info(`File written: ${filePath}`);
+      return { ok: true };
+    } catch (error) {
+      logger.error(`Failed to write file: ${filePath}`, error);
+      return { ok: false, error: `Could not write: ${filePath}` };
     }
-  );
+  });
 
   // ─── Window ────────────────────────────────────
   ipcMain.handle(IPC.WINDOW_IS_MAXIMIZED, () => {
@@ -170,7 +163,7 @@ export function registerIpcHandlers(mainWindow: BrowserWindow): void {
 
   // ─── Wallpaper ─────────────────────────────────
   const wpDir = path.join(app.getPath('userData'), 'wallpaper');
-  
+
   ipcMain.handle(IPC.WALLPAPER_SAVE, async (_event, base64Data: string) => {
     try {
       await fs.mkdir(wpDir, { recursive: true });
@@ -185,21 +178,29 @@ export function registerIpcHandlers(mainWindow: BrowserWindow): void {
   });
 
   ipcMain.handle(IPC.WALLPAPER_LOAD, async () => {
+    try {
+      const wpPath = path.join(wpDir, 'bg.png');
       try {
-        const wpPath = path.join(wpDir, 'bg.png');
-        try { await fs.access(wpPath); } catch { return { ok: false }; }
-        const buffer = await fs.readFile(wpPath);
-        const dataUrl = `data:image/png;base64,${buffer.toString('base64')}`;
-        return { ok: true, dataUrl };
-      } catch { return { ok: false }; }
-    });
+        await fs.access(wpPath);
+      } catch {
+        return { ok: false };
+      }
+      const buffer = await fs.readFile(wpPath);
+      const dataUrl = `data:image/png;base64,${buffer.toString('base64')}`;
+      return { ok: true, dataUrl };
+    } catch {
+      return { ok: false };
+    }
+  });
 
-    ipcMain.handle(IPC.WALLPAPER_REMOVE, async () => {
-      try {
-        const wpPath = path.join(wpDir, 'bg.png');
+  ipcMain.handle(IPC.WALLPAPER_REMOVE, async () => {
+    try {
+      const wpPath = path.join(wpDir, 'bg.png');
       await fs.unlink(wpPath).catch(() => {});
       return { ok: true };
-    } catch { return { ok: false }; }
+    } catch {
+      return { ok: false };
+    }
   });
 
   logger.info('IPC handlers registered');

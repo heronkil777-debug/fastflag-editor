@@ -14,7 +14,11 @@ type IconProps = SVGProps<SVGSVGElement>;
 
 const defaults = 'w-4 h-4';
 
-function Icon({ children, className = defaults, ...props }: IconProps & { children: React.ReactNode }) {
+function Icon({
+  children,
+  className = defaults,
+  ...props
+}: IconProps & { children: React.ReactNode }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

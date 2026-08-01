@@ -128,14 +128,14 @@ const DEFAULT_STATE: UIState = {
 
 type UIStore = UIState & UIActions;
 
-export const useUIStore = create<UIStore>()((set) => ({
+export const useUIStore = create<UIStore>()(set => ({
   ...DEFAULT_STATE,
 
-  selectFlag: (id) => {
+  selectFlag: id => {
     set({ selectedFlagId: id, editingCell: null });
   },
 
-  startEditing: (cell) => {
+  startEditing: cell => {
     set({ editingCell: cell, selectedFlagId: cell.flagId });
   },
 
@@ -143,12 +143,12 @@ export const useUIStore = create<UIStore>()((set) => ({
     set({ editingCell: null });
   },
 
-  setSearchQuery: (query) => {
+  setSearchQuery: query => {
     set({ searchQuery: query });
   },
 
-  setSortConfig: (column) => {
-    set((state) => {
+  setSortConfig: column => {
+    set(state => {
       if (state.sortConfig?.column === column) {
         if (state.sortConfig.direction === 'asc') {
           return { sortConfig: { column, direction: 'desc' } };
@@ -159,12 +159,12 @@ export const useUIStore = create<UIStore>()((set) => ({
     });
   },
 
-  setFilterTag: (tag) => {
+  setFilterTag: tag => {
     set({ filterTag: tag, presetFilter: false, isTagFilterOpen: false });
   },
 
   togglePresetFilter: () => {
-    set((state) => ({ presetFilter: !state.presetFilter, filterTag: null }));
+    set(state => ({ presetFilter: !state.presetFilter, filterTag: null }));
   },
 
   openAddDialog: () => set({ isAddDialogOpen: true }),
@@ -173,13 +173,13 @@ export const useUIStore = create<UIStore>()((set) => ({
   openImportDialog: () => set({ isImportDialogOpen: true }),
   closeImportDialog: () => set({ isImportDialogOpen: false }),
 
-  toggleExportMenu: () => set((state) => ({ isExportMenuOpen: !state.isExportMenuOpen })),
+  toggleExportMenu: () => set(state => ({ isExportMenuOpen: !state.isExportMenuOpen })),
   closeExportMenu: () => set({ isExportMenuOpen: false }),
 
   showContextMenu: (x, y, flagId) => set({ contextMenu: { x, y, flagId } }),
   closeContextMenu: () => set({ contextMenu: null }),
 
-  toggleTagFilter: () => set((state) => ({ isTagFilterOpen: !state.isTagFilterOpen })),
+  toggleTagFilter: () => set(state => ({ isTagFilterOpen: !state.isTagFilterOpen })),
   closeTagFilter: () => set({ isTagFilterOpen: false }),
 
   resetUI: () => set(DEFAULT_STATE),

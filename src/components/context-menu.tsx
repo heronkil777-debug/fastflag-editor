@@ -87,7 +87,7 @@ export function ContextMenu({ x, y, items, onClose }: ContextMenuProps) {
       className="fixed z-50 bg-slate-800 border border-slate-700/80 rounded-lg shadow-2xl py-1 min-w-[200px] overflow-hidden"
       style={{ left: adjustedX, top: adjustedY }}
     >
-      {items.map((entry) => {
+      {items.map(entry => {
         if ('separator' in entry) {
           return <div key={entry.key} className="h-px bg-slate-700/50 my-1" />;
         }

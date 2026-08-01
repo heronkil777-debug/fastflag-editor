@@ -46,9 +46,7 @@ const STORAGE_KEY = 'fastflag-theme';
 
 function resolveSystemTheme(): 'dark' | 'light' {
   if (typeof window !== 'undefined' && window.matchMedia) {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
   return 'dark';
 }
@@ -81,9 +79,7 @@ function applyTheme(theme: Theme): 'dark' | 'light' {
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(getStoredTheme);
-  const [resolvedTheme, setResolvedTheme] = useState<'dark' | 'light'>(
-    'dark'
-  );
+  const [resolvedTheme, setResolvedTheme] = useState<'dark' | 'light'>('dark');
 
   // Aplica o tema inicial
   useEffect(() => {
@@ -116,9 +112,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [resolvedTheme, setTheme]);
 
   return (
-    <ThemeContext.Provider
-      value={{ theme, resolvedTheme, setTheme, toggleTheme }}
-    >
+    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

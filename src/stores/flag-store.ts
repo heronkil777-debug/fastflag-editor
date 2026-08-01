@@ -105,7 +105,7 @@ export const useFlagStore = create<FlagStore>()(
         const id = generateId();
         const now = Date.now();
         const finalTags = tags && tags.length > 0 ? tags : suggestTags(name);
-        set((state) => ({
+        set(state => ({
           flags: [
             ...state.flags,
             {
@@ -122,33 +122,33 @@ export const useFlagStore = create<FlagStore>()(
         return id;
       },
 
-      removeFlag: (id) => {
-        set((state) => ({
-          flags: state.flags.filter((f) => f.id !== id),
+      removeFlag: id => {
+        set(state => ({
+          flags: state.flags.filter(f => f.id !== id),
         }));
       },
 
-      removeFlags: (ids) => {
+      removeFlags: ids => {
         const idSet = new Set(ids);
-        set((state) => ({
-          flags: state.flags.filter((f) => !idSet.has(f.id)),
+        set(state => ({
+          flags: state.flags.filter(f => !idSet.has(f.id)),
         }));
       },
 
       updateFlag: (id, updates) => {
-        set((state) => ({
-          flags: state.flags.map((f) =>
+        set(state => ({
+          flags: state.flags.map(f =>
             f.id === id ? { ...f, ...updates, updatedAt: Date.now() } : f
           ),
         }));
       },
 
-      duplicateFlag: (id) => {
-        const flag = get().flags.find((f) => f.id === id);
+      duplicateFlag: id => {
+        const flag = get().flags.find(f => f.id === id);
         if (!flag) return null;
         const newId = generateId();
         const now = Date.now();
-        set((state) => ({
+        set(state => ({
           flags: [
             ...state.flags,
             {
@@ -166,9 +166,9 @@ export const useFlagStore = create<FlagStore>()(
 
       // ─── Preset ───────────────────────────────────────
 
-      togglePreset: (id) => {
-        set((state) => ({
-          flags: state.flags.map((f) =>
+      togglePreset: id => {
+        set(state => ({
+          flags: state.flags.map(f =>
             f.id === id ? { ...f, preset: !f.preset, updatedAt: Date.now() } : f
           ),
         }));
@@ -179,8 +179,8 @@ export const useFlagStore = create<FlagStore>()(
       addTag: (flagId, tag) => {
         const trimmed = tag.trim();
         if (!trimmed) return;
-        set((state) => ({
-          flags: state.flags.map((f) => {
+        set(state => ({
+          flags: state.flags.map(f => {
             if (f.id !== flagId) return f;
             if (f.tags.includes(trimmed)) return f;
             return { ...f, tags: [...f.tags, trimmed], updatedAt: Date.now() };
@@ -189,12 +189,12 @@ export const useFlagStore = create<FlagStore>()(
       },
 
       removeTag: (flagId, tag) => {
-        set((state) => ({
-          flags: state.flags.map((f) => {
+        set(state => ({
+          flags: state.flags.map(f => {
             if (f.id !== flagId) return f;
             return {
               ...f,
-              tags: f.tags.filter((t) => t !== tag),
+              tags: f.tags.filter(t => t !== tag),
               updatedAt: Date.now(),
             };
           }),
@@ -203,7 +203,7 @@ export const useFlagStore = create<FlagStore>()(
 
       // ─── Import / Export ──────────────────────────────
 
-      importFromJSON: (json) => {
+      importFromJSON: json => {
         const format = detectFormat(json);
         let imported: FastFlag[];
 
@@ -218,12 +218,12 @@ export const useFlagStore = create<FlagStore>()(
             return 0;
         }
 
-        imported = imported.map((f) => ({
+        imported = imported.map(f => ({
           ...f,
           tags: f.tags.length > 0 ? f.tags : suggestTags(f.name),
         }));
 
-        set((state) => ({
+        set(state => ({
           flags: [...state.flags, ...imported],
         }));
 
@@ -235,7 +235,10 @@ export const useFlagStore = create<FlagStore>()(
       },
 
       exportPresetRoblox: () => {
-        return toRobloxFormat(get().flags.filter((f) => f.preset), true);
+        return toRobloxFormat(
+          get().flags.filter(f => f.preset),
+          true
+        );
       },
 
       exportAllRoblox: () => {
@@ -258,33 +261,31 @@ export const useFlagStore = create<FlagStore>()(
         return Array.from(tagSet).sort();
       },
 
-      getFlag: (id) => {
-        return get().flags.find((f) => f.id === id);
+      getFlag: id => {
+        return get().flags.find(f => f.id === id);
       },
 
       isNameDuplicate: (name, excludeId) => {
-        return get().flags.some((f) => f.name === name && f.id !== excludeId);
+        return get().flags.some(f => f.name === name && f.id !== excludeId);
       },
 
       // ─── Auto-Tagging ────────────────────────────────
 
-      autoTagFlag: (id) => {
-        const flag = get().flags.find((f) => f.id === id);
+      autoTagFlag: id => {
+        const flag = get().flags.find(f => f.id === id);
         if (!flag) return;
         const suggested = suggestTags(flag.name);
-        set((state) => ({
-          flags: state.flags.map((f) =>
-            f.id === id
-              ? { ...f, tags: suggested, updatedAt: Date.now() }
-              : f
+        set(state => ({
+          flags: state.flags.map(f =>
+            f.id === id ? { ...f, tags: suggested, updatedAt: Date.now() } : f
           ),
         }));
       },
 
       autoTagAll: () => {
         let count = 0;
-        set((state) => ({
-          flags: state.flags.map((f) => {
+        set(state => ({
+          flags: state.flags.map(f => {
             const suggested = suggestTags(f.name);
             if (JSON.stringify(f.tags) !== JSON.stringify(suggested)) {
               count++;
@@ -299,7 +300,7 @@ export const useFlagStore = create<FlagStore>()(
     {
       // zundo configuration
       limit: 500,
-      partialize: (state) => ({ flags: state.flags }),
+      partialize: state => ({ flags: state.flags }),
     }
   )
 );

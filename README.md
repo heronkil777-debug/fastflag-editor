@@ -34,11 +34,11 @@ npm run release
 
 ## Platforms
 
-| Platform | Format | Status |
-|---|---|---|
-| Windows | NSIS installer + portable | Supported |
-| macOS | DMG | Supported |
-| Linux | AppImage, deb | Supported |
+| Platform | Format                    | Status    |
+| -------- | ------------------------- | --------- |
+| Windows  | NSIS installer + portable | Supported |
+| macOS    | DMG                       | Supported |
+| Linux    | AppImage, deb             | Supported |
 
 ## Project Structure
 
@@ -61,15 +61,15 @@ src/
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Desktop Shell | Electron 43 |
-| UI | React 19.2 + Tailwind CSS 4 |
-| Language | TypeScript 5.9 (strict) |
-| State | Zustand 5 + Zundo (undo/redo) |
-| Validation | Zod 4 |
-| Build | Vite 7.3 + electron-builder |
-| Storage | electron-store (filesystem) |
+| Layer         | Technology                    |
+| ------------- | ----------------------------- |
+| Desktop Shell | Electron 43                   |
+| UI            | React 19.2 + Tailwind CSS 4   |
+| Language      | TypeScript 5.9 (strict)       |
+| State         | Zustand 5 + Zundo (undo/redo) |
+| Validation    | Zod 4                         |
+| Build         | Vite 7.3 + electron-builder   |
+| Storage       | electron-store (filesystem)   |
 
 ## Building for Distribution
 

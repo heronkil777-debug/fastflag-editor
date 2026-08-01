@@ -23,9 +23,9 @@ import { Dialog } from '@/components/ui/dialog';
 import { ClipboardIcon, FileIcon } from '@/components/ui/icons';
 
 export function ImportDialog() {
-  const isOpen = useUIStore((s) => s.isImportDialogOpen);
-  const closeDialog = useUIStore((s) => s.closeImportDialog);
-  const importFromJSON = useFlagStore((s) => s.importFromJSON);
+  const isOpen = useUIStore(s => s.isImportDialogOpen);
+  const closeDialog = useUIStore(s => s.closeImportDialog);
+  const importFromJSON = useFlagStore(s => s.importFromJSON);
 
   const [jsonText, setJsonText] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -67,7 +67,10 @@ export function ImportDialog() {
     if (count > 0) {
       window.dispatchEvent(
         new CustomEvent('ff-notification', {
-          detail: { message: `Imported ${count} flag${count !== 1 ? 's' : ''} with auto-tags`, type: 'success' as const },
+          detail: {
+            message: `Imported ${count} flag${count !== 1 ? 's' : ''} with auto-tags`,
+            type: 'success' as const,
+          },
         })
       );
       setJsonText('');
@@ -83,7 +86,7 @@ export function ImportDialog() {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.json';
-    input.onchange = async (e) => {
+    input.onchange = async e => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (!file) return;
       const text = await file.text();
@@ -138,8 +141,10 @@ export function ImportDialog() {
           <textarea
             ref={textAreaRef}
             value={jsonText}
-            onChange={(e) => handleTextChange(e.target.value)}
-            placeholder={'Paste your JSON here...\n\nExample (Roblox format):\n{\n  "FFlagDebugDisableTelemetryEpicV2": "True",\n  "FIntRenderShadowQuality": "21"\n}'}
+            onChange={e => handleTextChange(e.target.value)}
+            placeholder={
+              'Paste your JSON here...\n\nExample (Roblox format):\n{\n  "FFlagDebugDisableTelemetryEpicV2": "True",\n  "FIntRenderShadowQuality": "21"\n}'
+            }
             className="w-full h-64 bg-slate-900/50 border border-slate-600/50 rounded-lg px-3 py-2.5 text-sm font-mono text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-colors resize-y"
             spellCheck={false}
           />
@@ -153,14 +158,12 @@ export function ImportDialog() {
         </div>
 
         {/* Error */}
-        {error && (
-          <p className="text-sm text-red-400">{error}</p>
-        )}
+        {error && <p className="text-sm text-red-400">{error}</p>}
 
         {/* Info */}
         <p className="text-xs text-slate-500">
-          Supports Roblox ClientAppSettings.json and FastFlag Editor backup formats.
-          All imported flags will be automatically tagged based on their names.
+          Supports Roblox ClientAppSettings.json and FastFlag Editor backup formats. All imported
+          flags will be automatically tagged based on their names.
         </p>
 
         {/* Actions */}

@@ -70,8 +70,29 @@ export type RobloxFormat = Record<string, string>;
 
 /** Column definitions in display order. */
 export const DEFAULT_COLUMNS: ColumnDef[] = [
-  { key: 'tags', label: 'Tags', defaultWidth: 220, resizable: true, sortable: true, editable: true },
+  {
+    key: 'tags',
+    label: 'Tags',
+    defaultWidth: 220,
+    resizable: true,
+    sortable: true,
+    editable: true,
+  },
   { key: 'preset', label: '✓', defaultWidth: 50, resizable: false, sortable: true, editable: true },
-  { key: 'name', label: 'Name', defaultWidth: 300, resizable: true, sortable: true, editable: true },
-  { key: 'value', label: 'Value', defaultWidth: 200, resizable: true, sortable: true, editable: true },
+  {
+    key: 'name',
+    label: 'Name',
+    defaultWidth: 300,
+    resizable: true,
+    sortable: true,
+    editable: true,
+  },
+  {
+    key: 'value',
+    label: 'Value',
+    defaultWidth: 200,
+    resizable: true,
+    sortable: true,
+    editable: true,
+  },
 ];

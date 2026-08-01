@@ -7,9 +7,7 @@ import { StatusBar } from '@/components/status-bar';
 import { AddFlagDialog } from '@/components/add-flag-dialog';
 import { ImportDialog } from '@/components/import-dialog';
 import { ContextMenu, type ContextMenuEntry } from '@/components/context-menu';
-import {
-  EditIcon, CopyIcon, TrashIcon, TagIcon,
-} from '@/components/ui/icons';
+import { EditIcon, CopyIcon, TrashIcon, TagIcon } from '@/components/ui/icons';
 
 interface Notification {
   message: string;
@@ -33,25 +31,25 @@ function NotificationToast({ notification }: { notification: Notification }) {
 }
 
 export default function App() {
-  const selectedFlagId = useUIStore((s) => s.selectedFlagId);
-  const editingCell = useUIStore((s) => s.editingCell);
-  const contextMenu = useUIStore((s) => s.contextMenu);
-  const selectFlag = useUIStore((s) => s.selectFlag);
-  const stopEditing = useUIStore((s) => s.stopEditing);
-  const closeContextMenu = useUIStore((s) => s.closeContextMenu);
-  const openAddDialog = useUIStore((s) => s.openAddDialog);
-  const openImportDialog = useUIStore((s) => s.openImportDialog);
-  const startEditing = useUIStore((s) => s.startEditing);
+  const selectedFlagId = useUIStore(s => s.selectedFlagId);
+  const editingCell = useUIStore(s => s.editingCell);
+  const contextMenu = useUIStore(s => s.contextMenu);
+  const selectFlag = useUIStore(s => s.selectFlag);
+  const stopEditing = useUIStore(s => s.stopEditing);
+  const closeContextMenu = useUIStore(s => s.closeContextMenu);
+  const openAddDialog = useUIStore(s => s.openAddDialog);
+  const openImportDialog = useUIStore(s => s.openImportDialog);
+  const startEditing = useUIStore(s => s.startEditing);
 
-  const flags = useFlagStore((s) => s.flags);
-  const removeFlag = useFlagStore((s) => s.removeFlag);
-  const removeFlags = useFlagStore((s) => s.removeFlags);
-  const duplicateFlag = useFlagStore((s) => s.duplicateFlag);
-  const togglePreset = useFlagStore((s) => s.togglePreset);
-  const addTag = useFlagStore((s) => s.addTag);
-  const autoTagFlag = useFlagStore((s) => s.autoTagFlag);
-  const importFromJSON = useFlagStore((s) => s.importFromJSON);
-  const exportAll = useFlagStore((s) => s.exportAll);
+  const flags = useFlagStore(s => s.flags);
+  const removeFlag = useFlagStore(s => s.removeFlag);
+  const removeFlags = useFlagStore(s => s.removeFlags);
+  const duplicateFlag = useFlagStore(s => s.duplicateFlag);
+  const togglePreset = useFlagStore(s => s.togglePreset);
+  const addTag = useFlagStore(s => s.addTag);
+  const autoTagFlag = useFlagStore(s => s.autoTagFlag);
+  const importFromJSON = useFlagStore(s => s.importFromJSON);
+  const exportAll = useFlagStore(s => s.exportAll);
 
   const [notification, setNotification] = useState<Notification | null>(null);
   const notificationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -62,7 +60,7 @@ export default function App() {
   // Load wallpaper from disk on startup
   useEffect(() => {
     if (window.electron?.loadWallpaper) {
-      window.electron.loadWallpaper().then((r) => {
+      void window.electron.loadWallpaper().then(r => {
         if (r?.ok && r.dataUrl) setWallpaper(r.dataUrl);
       });
     }
@@ -113,7 +111,7 @@ export default function App() {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'x' && flags.length > 0) {
         e.preventDefault();
         if (confirm(`Delete all ${flags.length} flags?`)) {
-          removeFlags(flags.map((f) => f.id));
+          removeFlags(flags.map(f => f.id));
           selectFlag(null);
           notify(`Deleted all ${flags.length} flags`);
         }
@@ -121,7 +119,10 @@ export default function App() {
       }
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'c' && flags.length > 0) {
         e.preventDefault();
-        navigator.clipboard.writeText(exportAll()).then(() => notify(`Copied ${flags.length} flags`)).catch(() => notify('Failed to copy', 'error'));
+        navigator.clipboard
+          .writeText(exportAll())
+          .then(() => notify(`Copied ${flags.length} flags`))
+          .catch(() => notify('Failed to copy', 'error'));
         return;
       }
       if (isInputFocused) return;
@@ -149,46 +150,116 @@ export default function App() {
       const text = e.clipboardData?.getData('text/plain');
       if (!text?.trim()) return;
       const count = importFromJSON(text.trim());
-      if (count > 0) { e.preventDefault(); notify(`Imported ${count} flag${count !== 1 ? 's' : ''}`); }
+      if (count > 0) {
+        e.preventDefault();
+        notify(`Imported ${count} flag${count !== 1 ? 's' : ''}`);
+      }
     };
     document.addEventListener('paste', handlePaste);
     return () => document.removeEventListener('paste', handlePaste);
   }, [importFromJSON, notify]);
 
-  const handleDragOver = useCallback((e: React.DragEvent) => { e.preventDefault(); e.stopPropagation(); }, []);
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault(); e.stopPropagation();
-    const file = e.dataTransfer.files[0];
-    if (!file?.name.endsWith('.json')) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const text = ev.target?.result as string;
-      if (text) { const count = importFromJSON(text); if (count > 0) notify(`Imported ${count} flag${count !== 1 ? 's' : ''}`); }
-    };
-    reader.readAsText(file);
-  }, [importFromJSON, notify]);
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const file = e.dataTransfer.files[0];
+      if (!file?.name.endsWith('.json')) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const text = ev.target?.result as string;
+        if (text) {
+          const count = importFromJSON(text);
+          if (count > 0) notify(`Imported ${count} flag${count !== 1 ? 's' : ''}`);
+        }
+      };
+      reader.readAsText(file);
+    },
+    [importFromJSON, notify]
+  );
 
-  const contextMenuItems: ContextMenuEntry[] = contextMenu ? [
-    { key: 'edit', label: 'Edit Name', icon: <EditIcon className="w-3.5 h-3.5" />, onClick: () => startEditing({ flagId: contextMenu.flagId, column: 'name' }) },
-    { key: 'edit-value', label: 'Edit Value', icon: <EditIcon className="w-3.5 h-3.5" />, onClick: () => startEditing({ flagId: contextMenu.flagId, column: 'value' }) },
-    { key: 'duplicate', label: 'Duplicate', icon: <CopyIcon className="w-3.5 h-3.5" />, onClick: () => duplicateFlag(contextMenu.flagId) },
-    { key: 'toggle-preset', label: 'Toggle Preset', icon: <span style={{fontSize:'12px'}}>✓</span>, onClick: () => togglePreset(contextMenu.flagId) },
-    { key: 'auto-tag', label: 'Auto-Tag', icon: <TagIcon className="w-3.5 h-3.5" />, onClick: () => { autoTagFlag(contextMenu.flagId); notify('Tags updated'); } },
-    { key: 'add-tag', label: 'Add Tag…', icon: <TagIcon className="w-3.5 h-3.5" />, onClick: () => { const tag = prompt('Tag name:'); if (tag?.trim()) addTag(contextMenu.flagId, tag.trim()); } },
-    { key: 'sep-1', separator: true },
-    { key: 'delete', label: 'Delete', icon: <TrashIcon className="w-3.5 h-3.5" />, danger: true, onClick: () => { removeFlag(contextMenu.flagId); if (selectedFlagId === contextMenu.flagId) selectFlag(null); } },
-  ] : [];
+  const contextMenuItems: ContextMenuEntry[] = contextMenu
+    ? [
+        {
+          key: 'edit',
+          label: 'Edit Name',
+          icon: <EditIcon className="w-3.5 h-3.5" />,
+          onClick: () => startEditing({ flagId: contextMenu.flagId, column: 'name' }),
+        },
+        {
+          key: 'edit-value',
+          label: 'Edit Value',
+          icon: <EditIcon className="w-3.5 h-3.5" />,
+          onClick: () => startEditing({ flagId: contextMenu.flagId, column: 'value' }),
+        },
+        {
+          key: 'duplicate',
+          label: 'Duplicate',
+          icon: <CopyIcon className="w-3.5 h-3.5" />,
+          onClick: () => duplicateFlag(contextMenu.flagId),
+        },
+        {
+          key: 'toggle-preset',
+          label: 'Toggle Preset',
+          icon: <span style={{ fontSize: '12px' }}>✓</span>,
+          onClick: () => togglePreset(contextMenu.flagId),
+        },
+        {
+          key: 'auto-tag',
+          label: 'Auto-Tag',
+          icon: <TagIcon className="w-3.5 h-3.5" />,
+          onClick: () => {
+            autoTagFlag(contextMenu.flagId);
+            notify('Tags updated');
+          },
+        },
+        {
+          key: 'add-tag',
+          label: 'Add Tag…',
+          icon: <TagIcon className="w-3.5 h-3.5" />,
+          onClick: () => {
+            const tag = prompt('Tag name:');
+            if (tag?.trim()) addTag(contextMenu.flagId, tag.trim());
+          },
+        },
+        { key: 'sep-1', separator: true },
+        {
+          key: 'delete',
+          label: 'Delete',
+          icon: <TrashIcon className="w-3.5 h-3.5" />,
+          danger: true,
+          onClick: () => {
+            removeFlag(contextMenu.flagId);
+            if (selectedFlagId === contextMenu.flagId) selectFlag(null);
+          },
+        },
+      ]
+    : [];
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden" 
-      style={{ 
+    <div
+      className="h-screen flex flex-col overflow-hidden"
+      style={{
         background: wallpaper ? `url(${wallpaper}) center/cover fixed` : 'var(--ff-bg-primary)',
-      }} 
-      onDragOver={handleDragOver} onDrop={handleDrop}>
+      }}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
       <Toolbar />
       <FlagTable />
       <StatusBar onWallpaperChange={setWallpaper} />
-      {contextMenu && <ContextMenu x={contextMenu.x} y={contextMenu.y} items={contextMenuItems} onClose={closeContextMenu} />}
+      {contextMenu && (
+        <ContextMenu
+          x={contextMenu.x}
+          y={contextMenu.y}
+          items={contextMenuItems}
+          onClose={closeContextMenu}
+        />
+      )}
       <AddFlagDialog />
       <ImportDialog />
       {notification && <NotificationToast notification={notification} />}

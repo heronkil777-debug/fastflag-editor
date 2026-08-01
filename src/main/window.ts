@@ -10,8 +10,8 @@
 
 import { BrowserWindow, app, screen } from 'electron';
 import path from 'path';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const storeModule = require('./store') as any;
+
+const storeModule = require('./store');
 import logger from './logger';
 
 const isDev = !app.isPackaged;
@@ -24,7 +24,12 @@ export function getMainWindow(): BrowserWindow | null {
 
 export function createMainWindow(): BrowserWindow {
   // Restaurar tamanho e posição anteriores
-  const bounds = (storeModule.settingsStore.get('windowBounds') as { width: number; height: number; x?: number; y?: number }) || { width: 1200, height: 800 };
+  const bounds = (storeModule.settingsStore.get('windowBounds') as {
+    width: number;
+    height: number;
+    x?: number;
+    y?: number;
+  }) || { width: 1200, height: 800 };
 
   // Garantir que a janela não comece fora da tela
   const display = screen.getPrimaryDisplay();
@@ -44,9 +49,9 @@ export function createMainWindow(): BrowserWindow {
 
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,     // SEGURANÇA: isolar o renderer
-      nodeIntegration: false,     // SEGURANÇA: sem acesso direto ao Node
-      sandbox: false,             // electron-store requer preload
+      contextIsolation: true, // SEGURANÇA: isolar o renderer
+      nodeIntegration: false, // SEGURANÇA: sem acesso direto ao Node
+      sandbox: false, // electron-store requer preload
       webSecurity: true,
     },
 
@@ -55,13 +60,13 @@ export function createMainWindow(): BrowserWindow {
 
   // Carregar conteúdo
   if (isDev) {
-    mainWindow.loadURL('http://localhost:5173').catch((err) => {
+    mainWindow.loadURL('http://localhost:5173').catch(err => {
       logger.error('Failed to load dev server:', err.message);
     });
     mainWindow.webContents.openDevTools();
   } else {
     const indexPath = path.join(__dirname, '../index.html');
-    mainWindow.loadFile(indexPath).catch((err) => {
+    mainWindow.loadFile(indexPath).catch(err => {
       logger.error('Failed to load index.html:', err.message);
     });
   }
@@ -96,14 +101,9 @@ export function createMainWindow(): BrowserWindow {
     logger.info('Window content loaded');
   });
 
-  mainWindow.webContents.on(
-    'did-fail-load',
-    (_event, errorCode, errorDescription) => {
-      logger.error(
-        `Window content failed to load: ${errorCode} — ${errorDescription}`
-      );
-    }
-  );
+  mainWindow.webContents.on('did-fail-load', (_event, errorCode, errorDescription) => {
+    logger.error(`Window content failed to load: ${errorCode} — ${errorDescription}`);
+  });
 
   logger.info('Main window created');
   return mainWindow;

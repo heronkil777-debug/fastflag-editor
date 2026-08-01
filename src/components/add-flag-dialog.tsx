@@ -22,9 +22,9 @@ import { getTagColor } from '@/utils/tag-colors';
 import { XIcon, PlusIcon } from '@/components/ui/icons';
 
 export function AddFlagDialog() {
-  const isOpen = useUIStore((s) => s.isAddDialogOpen);
-  const closeDialog = useUIStore((s) => s.closeAddDialog);
-  const addFlag = useFlagStore((s) => s.addFlag);
+  const isOpen = useUIStore(s => s.isAddDialogOpen);
+  const closeDialog = useUIStore(s => s.closeAddDialog);
+  const addFlag = useFlagStore(s => s.addFlag);
 
   const [name, setName] = useState('');
   const [value, setValue] = useState('');
@@ -37,7 +37,7 @@ export function AddFlagDialog() {
     if (!name.trim()) return [];
     const auto = suggestTags(name);
     // Filter out tags the user has already added
-    return auto.filter((t) => !tags.includes(t));
+    return auto.filter(t => !tags.includes(t));
   }, [name, tags]);
 
   // Reset form when dialog opens
@@ -69,7 +69,7 @@ export function AddFlagDialog() {
   };
 
   const handleRemoveTag = (tag: string) => {
-    setTags(tags.filter((t) => t !== tag));
+    setTags(tags.filter(t => t !== tag));
   };
 
   const handleAddSuggestedTag = (tag: string) => {
@@ -102,7 +102,7 @@ export function AddFlagDialog() {
           <input
             ref={nameRef}
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={e => setName(e.target.value)}
             placeholder="e.g. FIntRenderShadowQuality"
             className="w-full bg-slate-700/50 border border-slate-600/50 rounded-lg px-3 py-2 text-sm font-mono text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-colors"
           />
@@ -110,12 +110,10 @@ export function AddFlagDialog() {
 
         {/* Value */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1.5">
-            Value
-          </label>
+          <label className="block text-sm font-medium text-slate-300 mb-1.5">Value</label>
           <input
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={e => setValue(e.target.value)}
             placeholder="e.g. 21, True, False, 0.5"
             className="w-full bg-slate-700/50 border border-slate-600/50 rounded-lg px-3 py-2 text-sm font-mono text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-colors"
           />
@@ -123,20 +121,22 @@ export function AddFlagDialog() {
 
         {/* Tags */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1.5">
-            Tags
-          </label>
+          <label className="block text-sm font-medium text-slate-300 mb-1.5">Tags</label>
 
           {/* Current tags */}
           {tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mb-2">
-              {tags.map((tag) => {
+              {tags.map(tag => {
                 const color = getTagColor(tag);
                 return (
                   <span
                     key={tag}
                     className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium"
-                    style={{ backgroundColor: color.bg, color: color.text, border: `1px solid ${color.border}` }}
+                    style={{
+                      backgroundColor: color.bg,
+                      color: color.text,
+                      border: `1px solid ${color.border}`,
+                    }}
                   >
                     {tag}
                     <button
@@ -168,7 +168,7 @@ export function AddFlagDialog() {
                 </button>
               </div>
               <div className="flex flex-wrap gap-1.5">
-                {suggestedTags.map((tag) => {
+                {suggestedTags.map(tag => {
                   const color = getTagColor(tag);
                   return (
                     <button
@@ -176,7 +176,11 @@ export function AddFlagDialog() {
                       type="button"
                       onClick={() => handleAddSuggestedTag(tag)}
                       className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium transition-opacity hover:opacity-80"
-                      style={{ backgroundColor: color.bg, color: color.text, border: `1px solid ${color.border}` }}
+                      style={{
+                        backgroundColor: color.bg,
+                        color: color.text,
+                        border: `1px solid ${color.border}`,
+                      }}
                     >
                       <PlusIcon className="w-2.5 h-2.5" />
                       {tag}
@@ -191,7 +195,7 @@ export function AddFlagDialog() {
           <div className="flex gap-2">
             <input
               value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
+              onChange={e => setTagInput(e.target.value)}
               onKeyDown={handleTagKeyDown}
               placeholder="Add a custom tag…"
               className="flex-1 bg-slate-700/50 border border-slate-600/50 rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-colors"

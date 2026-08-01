@@ -22,7 +22,7 @@ import logger from './logger';
 
 // ─── Startup ──────────────────────────────────────
 
-app.whenReady().then(() => {
+void app.whenReady().then(() => {
   logger.info('=== FastFlag Editor starting ===');
   logger.info(`Version: ${app.getVersion()}`);
   logger.info(`Platform: ${process.platform}`);
@@ -66,12 +66,15 @@ app.on('before-quit', () => {
 
 // ─── Squirrel startup handling ───────────────────
 // Detecta instalação/atualização do Squirrel (electron-builder)
-try {
-  const squirrel = require('electron-squirrel-startup');
-  if (squirrel) {
-    logger.info('Squirrel startup event — exiting');
-    app.quit();
+(async () => {
+  try {
+    const squirrelModule = await import('electron-squirrel-startup');
+    const squirrel = squirrelModule.default ?? squirrelModule;
+    if (squirrel) {
+      logger.info('Squirrel startup event — exiting');
+      app.quit();
+    }
+  } catch {
+    // electron-squirrel-startup não disponível — ok
   }
-} catch {
-  // electron-squirrel-startup não disponível — ok
-}
+})();
