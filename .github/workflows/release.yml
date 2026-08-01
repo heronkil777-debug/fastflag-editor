@@ -20,6 +20,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       CSC_IDENTITY_AUTO_DISCOVERY: false
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -92,19 +94,19 @@ jobs:
       - name: Download Windows installer
         uses: actions/download-artifact@v4
         with:
-          name: Flag Editor Setup v${{ github.ref_name }}.exe
+          name: Flag Editor Setup v${{ needs.build.outputs.version }}.exe
           path: artifacts/windows
 
       - name: Download Windows portable
         uses: actions/download-artifact@v4
         with:
-          name: Flag Editor Portable v${{ github.ref_name }}.exe
+          name: Flag Editor Portable v${{ needs.build.outputs.version }}.exe
           path: artifacts/windows
 
       - name: Download Linux AppImage
         uses: actions/download-artifact@v4
         with:
-          name: Flag Editor-v${{ github.ref_name }}.AppImage
+          name: Flag Editor-v${{ needs.build.outputs.version }}.AppImage
           path: artifacts/linux
 
       - name: Create Release
@@ -115,9 +117,9 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            artifacts/windows/Flag Editor Setup v${{ github.ref_name }}.exe
-            artifacts/windows/Flag Editor Portable v${{ github.ref_name }}.exe
-            artifacts/linux/Flag Editor-v${{ github.ref_name }}.AppImage
+            artifacts/windows/Flag Editor Setup v${{ needs.build.outputs.version }}.exe
+            artifacts/windows/Flag Editor Portable v${{ needs.build.outputs.version }}.exe
+            artifacts/linux/Flag Editor-v${{ needs.build.outputs.version }}.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
