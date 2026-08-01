@@ -9,19 +9,8 @@ permissions:
   contents: write
 
 jobs:
-  extract-version:
-    name: Extract Version
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.version.outputs.version }}
-    steps:
-      - name: Extract version from tag
-        id: version
-        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
-
   build:
     name: Build ${{ matrix.os }}
-    needs: extract-version
     strategy:
       fail-fast: false
       matrix:
@@ -57,61 +46,69 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: false
         run: npx electron-builder --publish=never
 
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
       - name: Upload Windows installer
         if: matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v4
         with:
-          name: Flag Editor Setup v${{ needs.extract-version.outputs.version }}.exe
-          path: release/Flag Editor Setup ${{ needs.extract-version.outputs.version }}.exe
+          name: Flag Editor Setup v${{ steps.version.outputs.version }}.exe
+          path: release/Flag Editor Setup ${{ steps.version.outputs.version }}.exe
           retention-days: 1
 
       - name: Upload Windows portable
         if: matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v4
         with:
-          name: Flag Editor Portable v${{ needs.extract-version.outputs.version }}.exe
-          path: release/Flag Editor Portable ${{ needs.extract-version.outputs.version }}.exe
+          name: Flag Editor Portable v${{ steps.version.outputs.version }}.exe
+          path: release/Flag Editor Portable ${{ steps.version.outputs.version }}.exe
           retention-days: 1
 
       - name: Upload Linux AppImage
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
         with:
-          name: Flag Editor-v${{ needs.extract-version.outputs.version }}.AppImage
-          path: release/Flag Editor-${{ needs.extract-version.outputs.version }}.AppImage
+          name: Flag Editor-v${{ steps.version.outputs.version }}.AppImage
+          path: release/Flag Editor-${{ steps.version.outputs.version }}.AppImage
           retention-days: 1
 
       - name: Upload Linux deb
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
         with:
-          name: fastflag-editor_v${{ needs.extract-version.outputs.version }}_amd64.deb
-          path: release/fastflag-editor_${{ needs.extract-version.outputs.version }}_amd64.deb
+          name: fastflag-editor_v${{ steps.version.outputs.version }}_amd64.deb
+          path: release/fastflag-editor_${{ steps.version.outputs.version }}_amd64.deb
           retention-days: 1
 
   release:
     name: Create Release
-    needs: [build, extract-version]
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
       - name: Download Windows installer
         uses: actions/download-artifact@v4
         with:
-          name: Flag Editor Setup v${{ needs.extract-version.outputs.version }}.exe
+          name: Flag Editor Setup v${{ steps.version.outputs.version }}.exe
           path: artifacts/windows
 
       - name: Download Windows portable
         uses: actions/download-artifact@v4
         with:
-          name: Flag Editor Portable v${{ needs.extract-version.outputs.version }}.exe
+          name: Flag Editor Portable v${{ steps.version.outputs.version }}.exe
           path: artifacts/windows
 
       - name: Download Linux AppImage
         uses: actions/download-artifact@v4
         with:
-          name: Flag Editor-v${{ needs.extract-version.outputs.version }}.AppImage
+          name: Flag Editor-v${{ steps.version.outputs.version }}.AppImage
           path: artifacts/linux
 
       - name: Create Release
@@ -122,9 +119,9 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            artifacts/windows/Flag Editor Setup v${{ needs.extract-version.outputs.version }}.exe
-            artifacts/windows/Flag Editor Portable v${{ needs.extract-version.outputs.version }}.exe
-            artifacts/linux/Flag Editor-v${{ needs.extract-version.outputs.version }}.AppImage
+            artifacts/windows/Flag Editor Setup v${{ steps.version.outputs.version }}.exe
+            artifacts/windows/Flag Editor Portable v${{ steps.version.outputs.version }}.exe
+            artifacts/linux/Flag Editor-v${{ steps.version.outputs.version }}.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
