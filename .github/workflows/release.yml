@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            artifact_name: Flag Editor Setup ${{ matrix.version }}.exe
+          - os: macos-latest
+            artifact_name: Flag Editor-${{ matrix.version }}.dmg
+          - os: ubuntu-latest
+            artifact_name: Flag Editor-${{ matrix.version }}.AppImage
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck && npm run typecheck:main
+
+      - name: Build application
+        run: npm run build
+
+      - name: Package with electron-builder
+        uses: electron-builder/action@v2
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
