@@ -13,6 +13,8 @@ import { BrowserWindow, dialog } from 'electron';
 import { IPC } from './ipc-channels';
 import logger from './logger';
 import { app } from 'electron';
+import fs from 'fs';
+import path from 'path';
 
 // ─── Configuration ─────────────────────────────────
 
@@ -83,8 +85,18 @@ function setupUpdaterEvents(mainWindow: BrowserWindow): void {
 // ─── Actions ────────────────────────────────────────
 
 export function checkForUpdates(): void {
-  if (!app.isPackaged) {
-    logger.info('Skipping update check — running in development');
+  // Skip update check in development or unpacked mode (no app-update.yml)
+  if (!app.isPackaged || process.env.NODE_ENV === 'development') {
+    logger.info('Skipping update check — running in development/unpacked mode');
+    return;
+  }
+
+  // Check if app-update.yml exists (only present in published releases)
+  const updateConfigPath = path.join(process.resourcesPath, 'app-update.yml');
+  try {
+    fs.accessSync(updateConfigPath);
+  } catch {
+    logger.info('Skipping update check — no update config found (unpacked build)');
     return;
   }
 
