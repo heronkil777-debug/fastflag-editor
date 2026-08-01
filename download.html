@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FastFlag Editor - Gerenciador universal de FastFlags do Roblox. Windows, macOS e Linux.">
+  <title>FastFlag Editor — Download Gratuito</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            primary: {
+              50: '#f5f0ff', 100: '#ebe4ff', 200: '#d6cfff',
+              300: '#b8a8ff', 400: '#9a7cff', 500: '#8254ff',
+              600: '#703bff', 700: '#5e2ce6', 800: '#4d24b8', 900: '#401f93'
+            },
+            dark: {
+              bg: '#0f0a1a', card: '#1a122e', border: '#2d1f4a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    @keyframes pulse-glow { 0%,100%{box-shadow:0 0 20px rgba(130,84,255,0.3)} 50%{box-shadow:0 0 40px rgba(130,84,255,0.5)} }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+    .gradient-text { background: linear-gradient(135deg, #a8a0ff 0%, #8254ff 50%, #d6cfff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .glass { background: rgba(26,18,46,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(45,31,74,0.5); }
+    .btn-download:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -5px rgba(130,84,255,0.4); }
+    .btn-download:active { transform: translateY(0); }
+    .os-badge { transition: all 0.3s ease; }
+    .os-badge.active { background: linear-gradient(135deg, #8254ff 0%, #5e2ce6 100%); box-shadow: 0 0 20px rgba(130,84,255,0.4); }
+    @media (prefers-reduced-motion: reduce) { .animate-float, .animate-pulse-glow { animation: none; } }
+  </style>
+</head>
+<body class="min-h-screen bg-dark-bg text-white font-sans">
+  <!-- Background decorative elements -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl animate-float"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary-600/10 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
+    <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-primary-400/5 rounded-full blur-3xl animate-pulse-glow"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass/50 border-b border-dark-border">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3" aria-label="FastFlag Editor Home">
+        <svg class="w-10 h-10" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect width="32" height="32" rx="8" fill="url(#grad)"/>
+          <path d="M8 12h16M8 16h12M8 20h10" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <defs><linearGradient id="grad" x1="0" y1="0" x2="32" y2="32"><stop offset="0%" stop-color="#8254ff"/><stop offset="100%" stop-color="#a8a0ff"/></linearGradient></defs>
+        </svg>
+        <span class="font-bold text-xl gradient-text">FastFlag Editor</span>
+      </a>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/heronkil777-debug/fastflag-editor" target="_blank" rel="noopener noreferrer" class="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="#download" class="px-5 py-2.5 bg-primary-600 hover:bg-primary-500 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl">
+          Download
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="relative min-h-screen flex items-center justify-center pt-20 pb-20 px-6">
+    <div class="max-w-6xl mx-auto w-full text-center">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass mb-8 animate-float" style="animation-delay: 1s;">
+        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+        <span class="text-sm font-medium text-gray-200">Versão 0.1.0 — Lançado em Agosto 2026</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6 gradient-text animate-float" style="animation-delay: 0.5s;">
+        FastFlag<br>Editor
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed animate-float" style="animation-delay: 1s;">
+        Gerenciador universal de <strong class="text-white">FastFlags do Roblox</strong>.<br>
+        Crie, edite, organize e exporte — tudo offline, multiplataforma.
+      </p>
+
+      <!-- Features pills -->
+      <div class="flex flex-wrap items-center justify-center gap-3 mb-12 animate-float" style="animation-delay: 1.5s;">
+        <span class="px-4 py-1.5 rounded-full glass text-sm font-medium">Windows 10/11</span>
+        <span class="px-4 py-1.5 rounded-full glass text-sm font-medium">macOS 11+</span>
+        <span class="px-4 py-1.5 rounded-full glass text-sm font-medium">Linux (AppImage/deb)</span>
+        <span class="px-4 py-1.5 rounded-full glass text-sm font-medium">100% Offline</span>
+        <span class="px-4 py-1.5 rounded-full glass text-sm font-medium">Open Source</span>
+      </div>
+
+      <!-- Download Buttons - MAIN CTA -->
+      <div id="download" class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16 animate-float" style="animation-delay: 2s;">
+        <!-- Windows Button -->
+        <a href="https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-Setup-0.1.0.exe"
+           class="btn-download os-btn w-full sm:w-64 px-8 py-5 rounded-2xl glass flex items-center justify-center gap-4 group transition-all duration-300 border border-transparent hover:border-primary-500/50"
+           data-os="windows"
+           download
+           aria-label="Baixar FastFlag Editor para Windows (Instalador NSIS + Portable)">
+          <div class="w-12 h-12 rounded-xl bg-primary-600/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-primary-300" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm0-4h-2V7h2v8z"/></svg>
+          </div>
+          <div class="text-left">
+            <div class="text-xs text-gray-400 uppercase tracking-wider">Windows 10/11</div>
+            <div class="font-bold text-lg">Instalador + Portable</div>
+            <div class="text-xs text-gray-500">.exe · ~96 MB</div>
+          </div>
+          <svg class="w-6 h-6 text-gray-400 group-hover:text-primary-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </a>
+
+        <!-- macOS Button -->
+        <a href="https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-0.1.0.dmg"
+           class="btn-download os-btn w-full sm:w-64 px-8 py-5 rounded-2xl glass flex items-center justify-center gap-4 group transition-all duration-300 border border-transparent hover:border-primary-500/50"
+           data-os="macos"
+           download
+           aria-label="Baixar FastFlag Editor para macOS (DMG)">
+          <div class="w-12 h-12 rounded-xl bg-primary-600/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-primary-300" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H4V5h16v14z"/></svg>
+          </div>
+          <div class="text-left">
+            <div class="text-xs text-gray-400 uppercase tracking-wider">macOS 11+</div>
+            <div class="font-bold text-lg">DMG Universal</div>
+            <div class="text-xs text-gray-500">.dmg · ~100 MB</div>
+          </div>
+          <svg class="w-6 h-6 text-gray-400 group-hover:text-primary-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </a>
+
+        <!-- Linux Button -->
+        <a href="https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-0.1.0.AppImage"
+           class="btn-download os-btn w-full sm:w-64 px-8 py-5 rounded-2xl glass flex items-center justify-center gap-4 group transition-all duration-300 border border-transparent hover:border-primary-500/50"
+           data-os="linux"
+           download
+           aria-label="Baixar FastFlag Editor para Linux (AppImage)">
+          <div class="w-12 h-12 rounded-xl bg-primary-600/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-primary-300" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5zm0-10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>
+          </div>
+          <div class="text-left">
+            <div class="text-xs text-gray-400 uppercase tracking-wider">Linux</div>
+            <div class="font-bold text-lg">AppImage + .deb</div>
+            <div class="text-xs text-gray-500">.AppImage · ~100 MB</div>
+          </div>
+          <svg class="w-6 h-6 text-gray-400 group-hover:text-primary-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </a>
+      </div>
+
+      <!-- Auto-detect notice -->
+      <p class="text-gray-500 text-sm mb-4" id="os-hint">
+        <span id="detected-os" class="font-medium text-primary-300"></span> — seu download recomendado está destacado acima.
+      </p>
+
+      <!-- Alternative: View all releases -->
+      <p class="text-gray-500 text-sm">
+        <a href="https://github.com/heronkil777-debug/fastflag-editor/releases" target="_blank" rel="noopener noreferrer" class="text-primary-400 hover:text-primary-300 underline underline-offset-2">
+          Ver todas as versões no GitHub Releases →
+        </a>
+      </p>
+    </div>
+  </header>
+
+  <!-- Features Section -->
+  <section class="py-24 px-6 bg-dark-card/50 border-y border-dark-border">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-4">Por que FastFlag Editor?</h2>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto">Ferramenta completa para gerenciar FastFlags do Roblox com interface moderna e recursos avançados.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Feature 1 -->
+        <article class="glass p-6 rounded-2xl hover:border-primary-500/50 transition-all duration-300">
+          <div class="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center mb-4">
+            <svg class="w-7 h-7 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">CRUD Completo</h3>
+          <p class="text-gray-300">Crie, edite, duplique e delete FastFlags. Valores, nomes, tags e presets — tudo editável inline.</p>
+        </article>
+
+        <!-- Feature 2 -->
+        <article class="glass p-6 rounded-2xl hover:border-primary-500/50 transition-all duration-300">
+          <div class="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center mb-4">
+            <svg class="w-7 h-7 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Sistema de Tags & Presets</h3>
+          <p class="text-gray-300">Organize com tags personalizadas, auto-tag inteligente por nome e presets para ativar/desativar em lote.</p>
+        </article>
+
+        <!-- Feature 3 -->
+        <article class="glass p-6 rounded-2xl hover:border-primary-500/50 transition-all duration-300">
+          <div class="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center mb-4">
+            <svg class="w-7 h-7 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17l4 4 4-4m-3-10l-4-4-4 4"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Import/Export Universal</h3>
+          <p class="text-gray-300">JSON nativo, formato Roblox (ClientAppSettings) e exportação própria com metadados. Drag & drop para importar.</p>
+        </article>
+
+        <!-- Feature 4 -->
+        <article class="glass p-6 rounded-2xl hover:border-primary-500/50 transition-all duration-300">
+          <div class="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center mb-4">
+            <svg class="w-7 h-7 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Undo/Redo Ilimitado</h3>
+          <p class="text-gray-300">Histórico completo com <code class="px-2 py-0.5 bg-primary-500/20 rounded text-primary-300 text-xs font-mono">zundo</code>. Desfaça qualquer alteração com Ctrl+Z / Ctrl+Y.</p>
+        </article>
+
+        <!-- Feature 5 -->
+        <article class="glass p-6 rounded-2xl hover:border-primary-500/50 transition-all duration-300">
+          <div class="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center mb-4">
+            <svg class="w-7 h-7 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Segurança Total</h3>
+          <p class="text-gray-300"><code class="px-2 py-0.5 bg-primary-500/20 rounded text-primary-300 text-xs font-mono">contextIsolation: true</code>, <code class="px-2 py-0.5 bg-primary-500/20 rounded text-primary-300 text-xs font-mono">nodeIntegration: false</code>. IPC tipado e validado com Zod.</p>
+        </article>
+
+        <!-- Feature 6 -->
+        <article class="glass p-6 rounded-2xl hover:border-primary-500/50 transition-all duration-300">
+          <div class="w-12 h-12 rounded-xl bg-primary-500/20 flex items-center justify-center mb-4">
+            <svg class="w-7 h-7 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Auto-Update via GitHub</h3>
+          <p class="text-gray-300">Verifica atualizações automaticamente no startup. Notifica quando nova versão disponível e instala com um clique.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots/Preview Section -->
+  <section class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-4">Interface</h2>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto">Tema escuro elegante, tabelas responsivas, menus contextuais e wallpaper personalizável.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8">
+        <!-- Preview 1 -->
+        <div class="glass rounded-2xl overflow-hidden border border-dark-border">
+          <div class="bg-dark-bg px-4 py-3 flex items-center gap-2 border-b border-dark-border">
+            <div class="w-3 h-3 rounded-full bg-red-500/60"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/60"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500/60"></div>
+            <span class="ml-auto text-xs text-gray-500 font-mono">FastFlag Editor — main window</span>
+          </div>
+          <div class="p-6 bg-dark-bg font-mono text-sm text-gray-300 min-h-[300px]">
+            <div class="mb-4"><span class="text-primary-400">Flags:</span> <span class="text-gray-200">1,247</span> | <span class="text-primary-400">Preset:</span> <span class="text-emerald-400">312</span> | <span class="text-primary-400">Tags:</span> <span class="text-violet-400">42</span></div>
+            <div class="grid grid-cols-4 gap-2 text-xs mb-4">
+              <span class="px-2 py-1 bg-dark-border rounded">✓</span>
+              <span class="px-2 py-1 bg-dark-border rounded">Tags</span>
+              <span class="px-2 py-1 bg-dark-border rounded">Name</span>
+              <span class="px-2 py-1 bg-dark-border rounded">Value</span>
+            </div>
+            <div class="space-y-1 text-xs">
+              <div class="grid grid-cols-4 gap-2 px-2 py-1 hover:bg-dark-border rounded transition-colors"><span>✓</span><span>fps</span><span>FIntRenderShadowQuality</span><span>3</span></div>
+              <div class="grid grid-cols-4 gap-2 px-2 py-1 hover:bg-dark-border rounded transition-colors"><span></span><span>graphics</span><span>FIntRenderShadowQuality</span><span>2</span></div>
+              <div class="grid grid-cols-4 gap-2 px-2 py-1 hover:bg-dark-border rounded transition-colors"><span>✓</span><span>memory</span><span>FIntTextureMemoryLimitMB</span><span>512</span></div>
+              <div class="grid grid-cols-4 gap-2 px-2 py-1 hover:bg-dark-border rounded transition-colors"><span></span><span>performance</span><span>FFlagDebugGraphicsDisableVSync</span><span>True</span></div>
+              <div class="grid grid-cols-4 gap-2 px-2 py-1 hover:bg-dark-border rounded transition-colors"><span>✓</span><span>cache</span><span>FIntTextureCacheSizeMB</span><span>256</span></div>
+              <div class="grid grid-cols-4 gap-2 px-2 py-1 hover:bg-dark-border rounded transition-colors"><span></span><span>network</span><span>FIntConnectionTimeoutSec</span><span>30</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview 2 -->
+        <div class="glass rounded-2xl overflow-hidden border border-dark-border">
+          <div class="bg-dark-bg px-4 py-3 flex items-center gap-2 border-b border-dark-border">
+            <div class="w-3 h-3 rounded-full bg-red-500/60"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/60"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500/60"></div>
+            <span class="ml-auto text-xs text-gray-500 font-mono">Context menu & Add flag dialog</span>
+          </div>
+          <div class="p-6 bg-dark-bg min-h-[300px]">
+            <div class="mb-4 text-sm text-gray-400">Clique com botão direito em qualquer flag →</div>
+            <div class="glass rounded-lg p-4 w-64 mb-6">
+              <div class="flex items-center gap-3 px-2 py-2 hover:bg-dark-border rounded transition-colors"><svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg><span class="text-gray-100">Editar Nome</span></div>
+              <div class="flex items-center gap-3 px-2 py-2 hover:bg-dark-border rounded transition-colors"><svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg><span class="text-gray-100">Editar Valor</span></div>
+              <div class="flex items-center gap-3 px-2 py-2 hover:bg-dark-border rounded transition-colors"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4 4m4-4l-4-4m0 16H4m0 0l4 4m-4-4l4-4"/></svg><span class="text-gray-100">Duplicar</span></div>
+              <div class="flex items-center gap-3 px-2 py-2 hover:bg-dark-border rounded transition-colors"><svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span class="text-gray-100">Toggle Preset</span></div>
+              <div class="flex items-center gap-3 px-2 py-2 hover:bg-dark-border rounded transition-colors"><svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg><span class="text-gray-100">Auto-Tag</span></div>
+              <div class="flex items-center gap-3 px-2 py-2 hover:bg-dark-border rounded transition-colors"><svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg><span class="text-gray-100">Adicionar Tag…</span></div>
+              <hr class="border-dark-border my-2">
+              <div class="flex items-center gap-3 px-2 py-2 hover:bg-red-500/10 rounded transition-colors text-red-400"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v12m-6 0V7"/></svg><span class="text-gray-100">Excluir</span></div>
+            </div>
+            <div class="mb-4 text-sm text-gray-400 mt-6">Nova flag (Ctrl+N) →</div>
+            <div class="glass rounded-lg p-4 max-w-md">
+              <div class="mb-3"><label class="block text-xs text-gray-400 mb-1">Nome da Flag</label><input type="text" class="w-full bg-dark-bg border border-dark-border rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:border-primary-500 focus:outline-none" placeholder="FIntRenderShadowQuality"></div>
+              <div class="mb-3"><label class="block text-xs text-gray-400 mb-1">Valor</label><input type="text" class="w-full bg-dark-bg border border-dark-border rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:border-primary-500 focus:outline-none" placeholder="3"></div>
+              <div class="mb-3"><label class="block text-xs text-gray-400 mb-1">Tags (separadas por vírgula)</label><input type="text" class="w-full bg-dark-bg border border-dark-border rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:border-primary-500 focus:outline-none" placeholder="graphics, performance, shadow"></div>
+              <div class="flex gap-3"><button class="flex-1 px-4 py-2 rounded-lg font-semibold text-white transition-colors bg-primary-600 hover:bg-primary-500">Criar Flag</button><button class="px-4 py-2 rounded-lg font-semibold text-gray-300 hover:text-white transition-colors bg-dark-border hover:bg-dark-border/80">Cancelar</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section class="py-16 px-6 bg-dark-card/50 border-y border-dark-border">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-3">Stack Tecnológica</h2>
+        <p class="text-gray-300">Ferramentas modernas, tipos rigorosos, arquitetura segura.</p>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <span class="px-4 py-2 rounded-lg glass text-sm font-medium flex items-center gap-2"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4v7l-4 4h-4v-4l-4-4h4V4h4z"/></svg> Electron 43</span>
+        <span class="px-4 py-2 rounded-lg glass text-sm font-medium flex items-center gap-2"><svg class="w-5 h-5" fill="#61DAFB" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5zm0-10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg> React 19</span>
+        <span class="px-4 py-2 rounded-lg glass text-sm font-medium flex items-center gap-2"><svg class="w-5 h-5" fill="#3178C6" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5zm0-10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg> TypeScript 5.9 (strict)</span>
+        <span class="px-4 py-2 rounded-lg glass text-sm font-medium flex items-center gap-2"><svg class="w-5 h-5" fill="#06B6D4" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5zm0-10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg> Zustand 5 + Zundo</span>
+        <span class="px-4 py-2 rounded-lg glass text-sm font-medium flex items-center gap-2"><svg class="w-5 h-5" fill="#38B2AC" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5zm0-10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg> Tailwind CSS 4</span>
+        <span class="px-4 py-2 rounded-lg glass text-sm font-medium flex items-center gap-2"><svg class="w-5 h-5" fill="#8B5CF6" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5zm0-10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg> Zod 4</span>
+        <span class="px-4 py-2 rounded-lg glass text-sm font-medium flex items-center gap-2"><svg class="w-5 h-5" fill="#47A248" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5zm0-10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg> electron-builder 26</span>
+        <span class="px-4 py-2 rounded-lg glass text-sm font-medium flex items-center gap-2"><svg class="w-5 h-5" fill="#F05032" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5zm0-10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg> Vite 7</span>
+        <span class="px-4 py-2 rounded-lg glass text-sm font-medium flex items-center gap-2"><svg class="w-5 h-5" fill="#E34F26" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-2.48 0-4.5-2.02-4.5-4.5S9.52 7.5 12 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5zm0-10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg> ESLint 9 + Prettier</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer CTA -->
+  <section class="py-24 px-6 text-center">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-6">Pronto para organizar seus FastFlags?</h2>
+      <p class="text-xl text-gray-300 mb-10">Baixe agora — 100% gratuito, open source, sem telemetria, sem conta necessária.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="https://github.com/heronkil777-debug/fastflag-editor/releases/latest" target="_blank" rel="noopener noreferrer" class="btn-download px-10 py-4 rounded-xl bg-primary-600 hover:bg-primary-500 text-white font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300">
+          <svg class="w-6 h-6 inline-block mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9h-4V3H9v6H5l7 7 7-7h-4v-6zM9 21H5v-6h4v6z"/></svg>
+          Baixar Versão Mais Recente
+        </a>
+        <a href="https://github.com/heronkil777-debug/fastflag-editor" target="_blank" rel="noopener noreferrer" class="px-10 py-4 rounded-xl glass border border-dark-border hover:border-primary-500/50 text-white font-bold text-lg transition-all duration-300">
+          <svg class="w-6 h-6 inline-block mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          Ver no GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 px-6 border-t border-dark-border bg-dark-card/50">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-gray-500 text-sm">
+      <p>FastFlag Editor v0.1.0 — <a href="https://github.com/heronkil777-debug/fastflag-editor/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="text-primary-400 hover:text-primary-300 underline">MIT License</a></p>
+      <div class="flex items-center gap-6">
+        <a href="https://github.com/heronkil777-debug/fastflag-editor/issues" target="_blank" rel="noopener noreferrer" class="hover:text-primary-400 transition-colors">Reportar Bug</a>
+        <a href="https://github.com/heronkil777-debug/fastflag-editor/discussions" target="_blank" rel="noopener noreferrer" class="hover:text-primary-400 transition-colors">Discussões</a>
+        <a href="https://github.com/heronkil777-debug/fastflag-editor/blob/main/README.md" target="_blank" rel="noopener noreferrer" class="hover:text-primary-400 transition-colors">Documentação</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- OS Detection Script -->
+  <script>
+    (function() {
+      const ua = navigator.userAgent.toLowerCase();
+      let os = 'unknown';
+      let osName = '';
+
+      if (ua.includes('win')) { os = 'windows'; osName = 'Windows'; }
+      else if (ua.includes('mac')) { os = 'macos'; osName = 'macOS'; }
+      else if (ua.includes('linux')) { os = 'linux'; osName = 'Linux'; }
+      else if (ua.includes('android')) { os = 'android'; osName = 'Android'; }
+      else if (ua.includes('iphone') || ua.includes('ipad')) { os = 'ios'; osName = 'iOS'; }
+
+      const hintEl = document.getElementById('os-hint');
+      const detectedEl = document.getElementById('detected-os');
+      const buttons = document.querySelectorAll('.os-btn');
+
+      if (os !== 'unknown') {
+        detectedEl.textContent = `Detectado: ${osName}`;
+        buttons.forEach(btn => {
+          if (btn.dataset.os === os) {
+            btn.classList.add('active', 'ring-2', 'ring-primary-400/50');
+            btn.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+          }
+        });
+      } else {
+        hintEl.textContent = 'Não foi possível detectar seu sistema. Escolha abaixo:';
+      }
+
+      // Mobile: Android/iOS notice
+      if (os === 'android' || os === 'ios') {
+        hintEl.innerHTML = `⚠️ <strong>${osName} não é suportado nativamente</strong> (Electron não roda em mobile). Use a <a href="https://github.com/heronkil777-debug/fastflag-editor" target="_blank" rel="noopener" class="text-primary-400 underline">versão web/PWA</a> ou acesse de um computador.`;
+      }
+    })();
+  </script>
+</body>
+</html>
