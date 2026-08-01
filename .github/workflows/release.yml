@@ -16,7 +16,9 @@ jobs:
       matrix:
         include:
           - os: windows-latest
+            platform: windows
           - os: ubuntu-latest
+            platform: linux
     runs-on: ${{ matrix.os }}
     env:
       CSC_IDENTITY_AUTO_DISCOVERY: false
@@ -51,34 +53,34 @@ jobs:
         run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
 
       - name: Upload Windows installer
-        if: matrix.os == 'windows-latest'
+        if: matrix.platform == 'windows'
         uses: actions/upload-artifact@v4
         with:
-          name: Flag Editor Setup v${{ steps.version.outputs.version }}.exe
+          name: windows-Flag Editor Setup v${{ steps.version.outputs.version }}.exe
           path: release/Flag Editor Setup ${{ steps.version.outputs.version }}.exe
           retention-days: 1
 
       - name: Upload Windows portable
-        if: matrix.os == 'windows-latest'
+        if: matrix.platform == 'windows'
         uses: actions/upload-artifact@v4
         with:
-          name: Flag Editor Portable v${{ steps.version.outputs.version }}.exe
+          name: windows-Flag Editor Portable v${{ steps.version.outputs.version }}.exe
           path: release/Flag Editor Portable ${{ steps.version.outputs.version }}.exe
           retention-days: 1
 
       - name: Upload Linux AppImage
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.platform == 'linux'
         uses: actions/upload-artifact@v4
         with:
-          name: Flag Editor-v${{ steps.version.outputs.version }}.AppImage
+          name: linux-Flag Editor-v${{ steps.version.outputs.version }}.AppImage
           path: release/Flag Editor-${{ steps.version.outputs.version }}.AppImage
           retention-days: 1
 
       - name: Upload Linux deb
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.platform == 'linux'
         uses: actions/upload-artifact@v4
         with:
-          name: fastflag-editor_v${{ steps.version.outputs.version }}_amd64.deb
+          name: linux-fastflag-editor_v${{ steps.version.outputs.version }}_amd64.deb
           path: release/fastflag-editor_${{ steps.version.outputs.version }}_amd64.deb
           retention-days: 1
 
@@ -96,19 +98,19 @@ jobs:
       - name: Download Windows installer
         uses: actions/download-artifact@v4
         with:
-          name: Flag Editor Setup v${{ steps.version.outputs.version }}.exe
+          name: windows-Flag Editor Setup v${{ steps.version.outputs.version }}.exe
           path: artifacts/windows
 
       - name: Download Windows portable
         uses: actions/download-artifact@v4
         with:
-          name: Flag Editor Portable v${{ steps.version.outputs.version }}.exe
+          name: windows-Flag Editor Portable v${{ steps.version.outputs.version }}.exe
           path: artifacts/windows
 
       - name: Download Linux AppImage
         uses: actions/download-artifact@v4
         with:
-          name: Flag Editor-v${{ steps.version.outputs.version }}.AppImage
+          name: linux-Flag Editor-v${{ steps.version.outputs.version }}.AppImage
           path: artifacts/linux
 
       - name: Create Release
@@ -119,9 +121,9 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            artifacts/windows/Flag Editor Setup v${{ steps.version.outputs.version }}.exe
-            artifacts/windows/Flag Editor Portable v${{ steps.version.outputs.version }}.exe
-            artifacts/linux/Flag Editor-v${{ steps.version.outputs.version }}.AppImage
+            artifacts/windows/Flag Editor Setup ${{ steps.version.outputs.version }}.exe
+            artifacts/windows/Flag Editor Portable ${{ steps.version.outputs.version }}.exe
+            artifacts/linux/Flag Editor-${{ steps.version.outputs.version }}.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
