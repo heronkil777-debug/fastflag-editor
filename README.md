@@ -4,6 +4,16 @@ A universal desktop editor for Roblox FastFlags. Create, edit, organize, and man
 
 **Stack:** Electron 43 · React 19.2 · TypeScript 5.9 · Zustand 5 · Tailwind CSS 4 · Zod 4
 
+## 📥 Downloads
+
+| Windows 10/11 | macOS 11+ | Linux |
+|:---:|:---:|:---:|
+| **Instalador + Portable** | **DMG Universal** | **AppImage + .deb** |
+| `.exe` · ~96 MB | `.dmg` · ~100 MB | `.AppImage` · ~100 MB |
+| [![Download Windows](https://img.shields.io/badge/BAIXAR-Windows-8254ff?style=for-the-badge&logo=windows)](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-Setup-0.1.0.exe) | [![Download macOS](https://img.shields.io/badge/BAIXAR-macOS-8254ff?style=for-the-badge&logo=apple)](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-0.1.0.dmg) | [![Download Linux](https://img.shields.io/badge/BAIXAR-Linux-8254ff?style=for-the-badge&logo=linux)](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-0.1.0.AppImage) |
+
+> **Nota:** Os links apontam para a última release. Se não houver release publicada, os links retornarão 404. Para ver todas as versões, acesse [Releases](https://github.com/heronkil777-debug/fastflag-editor/releases).
+
 ## Features
 
 - Create, edit, duplicate and delete FastFlags
