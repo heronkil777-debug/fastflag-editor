@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Release artifacts (generated binaries)
+release/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Electron
+out/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Logs (dev/debug leftovers)
+*.log
+!*.log.example
+
+# Backup files
+*.bak
+
+# TypeScript
+*.tsbuildinfo
+
+# Cache
+.eslintcache
+*.tsbuildinfo
+
+# Test coverage
+coverage/
+
+# Temporary
+tmp/
+temp/

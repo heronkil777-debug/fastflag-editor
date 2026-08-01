@@ -1,0 +1,99 @@
+{
+  "name": "fastflag-editor",
+  "private": true,
+  "version": "0.1.0",
+  "main": "dist/main/index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run build:renderer && npm run build:main",
+    "build:renderer": "vite build",
+    "build:main": "tsc -p tsconfig.main.json",
+    "preview": "vite preview",
+    "electron": "npm run build:main && electron .",
+    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && npm run build:main && electron .\"",
+    "build:electron": "npm run clean && npm run build && electron-builder",
+    "release": "npm run build && electron-builder --publish=never",
+    "typecheck": "tsc --noEmit",
+    "typecheck:main": "tsc -p tsconfig.main.json --noEmit",
+    "clean": "rimraf release"
+  },
+  "dependencies": {
+    "clsx": "2.1.1",
+    "electron-log": "^5.4.4",
+    "electron-store": "^11.0.2",
+    "electron-updater": "^6.8.9",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "tailwind-merge": "3.4.0",
+    "zod": "^4.4.3",
+    "zundo": "^2.3.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.1.17",
+    "@types/node": "22.19.17",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.1.1",
+    "concurrently": "^8.2.2",
+    "electron": "^43.2.0",
+    "electron-builder": "^26.15.3",
+    "rimraf": "^6.1.3",
+    "tailwindcss": "4.1.17",
+    "typescript": "5.9.3",
+    "vite": "7.3.2",
+    "vite-plugin-singlefile": "2.3.0",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.heronpessoa.flageditor",
+    "productName": "Flag Editor",
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "extraResources": [],
+    "directories": {
+      "buildResources": "assets",
+      "output": "release"
+    },
+    "npmRebuild": false,
+    "nodeGypRebuild": false,
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Flag Editor"
+    },
+    "portable": {
+      "artifactName": "Flag Editor Portable ${version}.exe"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.png"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "assets/icon.png"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "heron-pessoa",
+        "repo": "fastflag-editor"
+      }
+    ]
+  }
+}

@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/* ─── Theme Variables ────────────────────────────────── */
+
+/* Dark purple theme */
+:root,
+[data-theme="dark"] {
+  --ff-bg-primary: #1a0a2e;
+  --ff-bg-secondary: #1e1035;
+  --ff-bg-tertiary: #2a1548;
+  --ff-bg-hover: #352255;
+  --ff-border: #3a2560;
+  --ff-border-light: #2e1a4a;
+  --ff-text-primary: #e8dff0;
+  --ff-text-secondary: #a08cb8;
+  --ff-text-muted: #6e5a88;
+  --ff-accent: #a78bfa;
+  --ff-accent-hover: #c4b5fd;
+  --ff-danger: #f87171;
+  --ff-danger-hover: #ef4444;
+  --ff-success: #34d399;
+  --ff-warning: #fbbf24;
+  --ff-tag-color: #7c3aed;
+  --ff-scrollbar-thumb: #3a2560;
+  --ff-scrollbar-thumb-hover: #4e3078;
+  --ff-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --ff-bg-primary: #f8f5fc;
+  --ff-bg-secondary: #ede4f7;
+  --ff-bg-tertiary: #e0d4f0;
+  --ff-bg-hover: #d4c4e8;
+  --ff-border: #c4b0dc;
+  --ff-border-light: #d4c4e8;
+  --ff-text-primary: #2d1b4e;
+  --ff-text-secondary: #5a3e7c;
+  --ff-text-muted: #8970a8;
+  --ff-accent: #7c3aed;
+  --ff-accent-hover: #6d28d9;
+  --ff-danger: #dc2626;
+  --ff-danger-hover: #b91c1c;
+  --ff-success: #059669;
+  --ff-warning: #d97706;
+  --ff-tag-color: #7c3aed;
+  --ff-scrollbar-thumb: #c4b5dc;
+  --ff-scrollbar-thumb-hover: #a78bfa;
+  --ff-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+/* ─── Base Styles ────────────────────────────────────── */
+
+body {
+  background: var(--ff-bg-primary);
+  color: var(--ff-text-primary);
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Custom Scrollbar ─────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ff-scrollbar-thumb);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ff-scrollbar-thumb-hover);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ff-scrollbar-thumb) transparent;
+}
+
+/* ─── Selection ────────────────────────────────────────── */
+
+::selection {
+  background: rgba(167, 139, 250, 0.3);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--ff-accent);
+  outline-offset: -2px;
+}
+
+/* ─── Animations ──────────────────────────────────────── */
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: slide-up 0.2s ease-out;
+}
