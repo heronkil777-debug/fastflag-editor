@@ -91,7 +91,7 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "heron-pessoa",
+        "owner": "heronkil777-debug",
         "repo": "fastflag-editor"
       }
     ]
