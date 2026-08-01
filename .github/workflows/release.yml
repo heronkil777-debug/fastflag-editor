@@ -16,11 +16,11 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            artifact_name: Flag Editor Setup ${{ matrix.version }}.exe
+            artifact_name: Flag Editor Setup ${{ github.ref_name }}.exe
           - os: macos-latest
-            artifact_name: Flag Editor-${{ matrix.version }}.dmg
+            artifact_name: Flag Editor-${{ github.ref_name }}.dmg
           - os: ubuntu-latest
-            artifact_name: Flag Editor-${{ matrix.version }}.AppImage
+            artifact_name: Flag Editor-${{ github.ref_name }}.AppImage
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
