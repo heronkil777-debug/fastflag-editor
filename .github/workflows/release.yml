@@ -33,30 +33,11 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Package with electron-builder
-        id: package
+      - name: Package and Publish
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_IDENTITY_AUTO_DISCOVERY: false
-        run: npx electron-builder --publish=never
-
-      - name: Extract version from tag
-        id: version
-        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
-
-      - name: Upload Windows installer
-        uses: actions/upload-artifact@v4
-        with:
-          name: win-setup-v${{ steps.version.outputs.version }}
-          path: release/Flag Editor Setup ${{ steps.version.outputs.version }}.exe
-          retention-days: 1
-
-      - name: Upload Windows portable
-        uses: actions/upload-artifact@v4
-        with:
-          name: win-portable-v${{ steps.version.outputs.version }}
-          path: release/Flag Editor Portable ${{ steps.version.outputs.version }}.exe
-          retention-days: 1
+        run: npx electron-builder --publish=always
 
   build-linux:
     name: Build Linux
@@ -82,76 +63,11 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Package with electron-builder
-        id: package
+      - name: Package and Publish
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_IDENTITY_AUTO_DISCOVERY: false
-        run: npx electron-builder --publish=never
-
-      - name: Extract version from tag
-        id: version
-        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
-
-      - name: Upload Linux AppImage
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-appimage-v${{ steps.version.outputs.version }}
-          path: release/Flag Editor-${{ steps.version.outputs.version }}.AppImage
-          retention-days: 1
-
-      - name: Upload Linux deb
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-deb-v${{ steps.version.outputs.version }}
-          path: release/fastflag-editor_${{ steps.version.outputs.version }}_amd64.deb
-          retention-days: 1
-
-  release:
-    name: Create Release
-    needs: [build-windows, build-linux]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Extract version from tag
-        id: version
-        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
-
-      - name: Wait for artifact processing
-        run: sleep 10
-
-      - name: Download Windows installer
-        uses: actions/download-artifact@v4
-        with:
-          name: win-setup-v${{ steps.version.outputs.version }}
-          path: artifacts/windows
-
-      - name: Download Windows portable
-        uses: actions/download-artifact@v4
-        with:
-          name: win-portable-v${{ steps.version.outputs.version }}
-          path: artifacts/windows
-
-      - name: Download Linux AppImage
-        uses: actions/download-artifact@v4
-        with:
-          name: linux-appimage-v${{ steps.version.outputs.version }}
-          path: artifacts/linux
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-          files: |
-            artifacts/windows/Flag Editor Setup ${{ steps.version.outputs.version }}.exe
-            artifacts/windows/Flag Editor Portable ${{ steps.version.outputs.version }}.exe
-            artifacts/linux/Flag Editor-${{ steps.version.outputs.version }}.AppImage
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx electron-builder --publish=always
 
   # macOS build (separado - pode falhar sem bloquear outros)
   build-macos:
@@ -179,7 +95,7 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Package with electron-builder
+      - name: Package and Publish
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSC_IDENTITY_AUTO_DISCOVERY: false
