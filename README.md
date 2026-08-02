@@ -6,13 +6,13 @@ A universal desktop editor for Roblox FastFlags. Create, edit, organize, and man
 
 ## 📥 Downloads
 
-| Windows 10/11 | macOS 11+ | Linux |
+| Windows 10/11 | macOS 11+ (Apple Silicon) | Linux (x64) |
 |:---:|:---:|:---:|
-| **Instalador + Portable** | **DMG Universal** | **AppImage + .deb** |
-| `.exe` · ~96 MB | `.dmg` · ~100 MB | `.AppImage` · ~100 MB |
-| [![Download Windows](https://img.shields.io/badge/BAIXAR-Windows-8254ff?style=for-the-badge&logo=windows)](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-Setup-0.1.23.exe) | [![Download macOS](https://img.shields.io/badge/BAIXAR-macOS-8254ff?style=for-the-badge&logo=apple)](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-0.1.23.dmg) | [![Download Linux](https://img.shields.io/badge/BAIXAR-Linux-8254ff?style=for-the-badge&logo=linux)](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-0.1.23.AppImage) |
-
-> **Nota:** Os links apontam para a última release. Se não houver release publicada, os links retornarão 404. Para ver todas as versões, acesse [Releases](https://github.com/heronkil777-debug/fastflag-editor/releases).
+| **Instalador + Portable** | **DMG .dmg** | **AppImage + .deb** |
+| `.exe` · ~97 MB | `.dmg` · ~117 MB | `.AppImage` · ~124 MB |
+| `0.1.27` | `0.1.27` | `0.1.27` |
+| [⬇️ Baixar](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-Setup-0.1.27.exe) | [⬇️ Baixar](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-0.1.27-arm64.dmg) | [⬇️ Baixar AppImage](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-0.1.27.AppImage) |
+| [⬇️ Portable](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-Portable-0.1.27.exe) | | [⬇️ .deb](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/fastflag-editor_0.1.27_amd64.deb) |
 
 ## Features
 
