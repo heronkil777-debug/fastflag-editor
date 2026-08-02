@@ -6,13 +6,19 @@ A universal desktop editor for Roblox FastFlags. Create, edit, organize, and man
 
 ## 📥 Downloads
 
-| Windows 10/11 | macOS 11+ (Apple Silicon) | Linux (x64) |
-|:---:|:---:|:---:|
-| **Instalador + Portable** | **DMG .dmg** | **AppImage + .deb** |
-| `.exe` · ~97 MB | `.dmg` · ~117 MB | `.AppImage` · ~124 MB |
-| `0.1.27` | `0.1.27` | `0.1.27` |
-| [⬇️ Baixar](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-Setup-0.1.27.exe) | [⬇️ Baixar](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-0.1.27-arm64.dmg) | [⬇️ Baixar AppImage](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-0.1.27.AppImage) |
-| [⬇️ Portable](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-Portable-0.1.27.exe) | | [⬇️ .deb](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/fastflag-editor_0.1.27_amd64.deb) |
+|                                                        Windows 10/11                                                         |                                                macOS 11+ (Apple Silicon)                                                |                                                           Linux (x64)                                                           |
+| :--------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
+|                                                  **Instalador + Portable**                                                   |                                                      **DMG .dmg**                                                       |                                                       **AppImage + .deb**                                                       |
+|                                                       `.exe` · ~97 MB                                                        |                                                    `.dmg` · ~117 MB                                                     |                                                      `.AppImage` · ~124 MB                                                      |
+|                                                           `0.1.27`                                                           |                                                        `0.1.27`                                                         |                                                            `0.1.27`                                                             |
+|   [⬇️ Baixar](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-Setup-0.1.27.exe)    | [⬇️ Baixar](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-0.1.27-arm64.dmg) | [⬇️ Baixar AppImage](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-0.1.27.AppImage) |
+| [⬇️ Portable](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/Flag-Editor-Portable-0.1.27.exe) |                                                                                                                         |    [⬇️ .deb](https://github.com/heronkil777-debug/fastflag-editor/releases/latest/download/fastflag-editor_0.1.27_amd64.deb)    |
+
+> **macOS — Gatekeeper:** O app não é assinado com Apple Developer ID. Na primeira execução, o Gatekeeper pode bloquear com "não foi possível verificar o desenvolvedor". Para contornar: clique direito no app > **Abrir** > **Abrir** no diálogo de segurança, ou rode no Terminal:
+>
+> ```bash
+> xattr -cr /Applications/Flag\ Editor.app
+> ```
 
 ## Features
 
