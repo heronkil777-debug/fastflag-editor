@@ -1,7 +1,7 @@
 {
   "name": "fastflag-editor",
   "private": true,
-  "version": "0.1.25",
+  "version": "0.1.26",
   "description": "Universal Roblox FastFlag manager — Electron + React + TypeScript cross-platform desktop app",
   "author": "Heron Pessoa <heronkil777-debug@users.noreply.github.com>",
   "main": "dist/main/index.js",
