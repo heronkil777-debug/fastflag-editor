@@ -73,11 +73,9 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: false
         run: npx electron-builder --publish=always
 
-  # macOS build (separado - pode falhar sem bloquear outros)
   build-macos:
     name: Build macOS
     runs-on: macos-latest
-    if: false  # Desabilitado temporariamente até corrigir
     permissions:
       contents: write
     env:
